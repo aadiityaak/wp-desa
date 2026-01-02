@@ -3,7 +3,9 @@
 namespace WP_Desa\Core;
 
 use WP_Desa\Frontend\Assets;
+use WP_Desa\Frontend\Shortcodes;
 use WP_Desa\Api\Router;
+use WP_Desa\Admin\Menu;
 
 class Plugin {
 
@@ -25,7 +27,12 @@ class Plugin {
 	}
 
 	private function define_admin_hooks() {
-		// Admin hooks
+		$plugin_admin = new Menu( $this->plugin_name, $this->version );
+		add_action( 'admin_menu', [ $plugin_admin, 'add_plugin_admin_menu' ] );
+		
+		$assets = new Assets( $this->plugin_name, $this->version );
+		add_action( 'admin_enqueue_scripts', [ $assets, 'enqueue_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $assets, 'enqueue_styles' ] );
 	}
 
 	private function define_public_hooks() {

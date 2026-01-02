@@ -3,6 +3,7 @@
 namespace WP_Desa\Api;
 
 use WP_Desa\Api\Controllers\VillageController;
+use WP_Desa\Api\Controllers\ResidentController;
 
 class Router {
 
@@ -10,7 +11,8 @@ class Router {
 
 	public function register_routes() {
 		$controllers = [
-			new VillageController( $this->namespace )
+			new VillageController( $this->namespace ),
+			new ResidentController( $this->namespace )
 		];
 
 		foreach ( $controllers as $controller ) {
