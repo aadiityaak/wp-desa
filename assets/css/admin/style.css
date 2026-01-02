@@ -1,0 +1,155 @@
+/* WP Desa Admin General Styles - Tailwind-inspired */
+
+/* Overlay */
+.wp-desa-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Alpine.js handles display: none/block, but we want smooth transition */
+.wp-desa-modal-overlay[x-show="true"], /* fallback if x-show adds style */
+.wp-desa-modal-overlay:not([style*="display: none"]) {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal Content */
+.wp-desa-modal-content {
+  background-color: #fff;
+  width: 100%;
+  max-width: 32rem; /* max-w-lg */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-xl */
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.wp-desa-modal-overlay:not([style*="display: none"]) .wp-desa-modal-content {
+  transform: scale(1);
+}
+
+/* Header */
+.wp-desa-modal-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+.wp-desa-modal-title {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+  color: #111827; /* text-gray-900 */
+  margin: 0;
+}
+
+/* Body */
+.wp-desa-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  height: 50vh;
+  max-height: 100%;
+}
+
+/* Footer */
+.wp-desa-modal-footer {
+  padding: 1rem 1.5rem;
+  background-color: #f9fafb; /* bg-gray-50 */
+  border-top: 1px solid #e5e7eb; /* border-gray-200 */
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Form Styles Override for Modal */
+.wp-desa-modal-content .form-table {
+  margin-top: 0;
+}
+
+.wp-desa-modal-content .form-table th {
+  padding: 10px 0;
+  width: 140px;
+  font-weight: 500;
+}
+
+.wp-desa-modal-content .form-table td {
+  padding: 5px 0 10px 0;
+}
+
+.wp-desa-modal-content input[type="text"],
+.wp-desa-modal-content input[type="date"],
+.wp-desa-modal-content select,
+.wp-desa-modal-content textarea {
+  width: 100%;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.wp-desa-modal-content input:focus,
+.wp-desa-modal-content select:focus,
+.wp-desa-modal-content textarea:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+  outline: 2px solid transparent;
+}
+
+/* Buttons */
+.wp-desa-btn {
+  display: inline-flex;
+  justify-content: center;
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.wp-desa-btn-secondary {
+  background-color: #fff;
+  border-color: #d1d5db; /* border-gray-300 */
+  color: #374151; /* text-gray-700 */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.wp-desa-btn-secondary:hover {
+  background-color: #f9fafb; /* hover:bg-gray-50 */
+}
+
+.wp-desa-btn-primary {
+  background-color: #2271b1; /* wp-blue */
+  color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.wp-desa-btn-primary:hover {
+  background-color: #135e96;
+}
+
+.wp-desa-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

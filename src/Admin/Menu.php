@@ -33,6 +33,9 @@ class Menu {
 
         // Alpine.js
         wp_enqueue_script('alpinejs', 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js', [], '3.0.0', true);
+
+        // Admin CSS
+        wp_enqueue_style('wp-desa-admin-css', WP_DESA_URL . 'assets/css/admin/style.css', [], '1.0.0');
     }
 
     public function render_dashboard() {
