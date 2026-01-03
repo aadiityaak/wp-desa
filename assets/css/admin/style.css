@@ -1,12 +1,11 @@
-/* WP Desa Admin General Styles - Tailwind-inspired */
-
-/* 1. Global & Layout */
+/* Global Wrapper */
 .wp-desa-wrapper {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #1e293b;
 }
 
+/* Header & Title */
 .wp-desa-header {
   display: flex;
   justify-content: space-between;
@@ -27,6 +26,13 @@
   gap: 10px;
 }
 
+.wp-desa-helper {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Cards & Layout */
 .wp-desa-card {
   background: white;
   border-radius: 12px;
@@ -36,70 +42,14 @@
   margin-bottom: 20px;
 }
 
-/* 2. Buttons */
-.wp-desa-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: 1px solid transparent;
-  text-decoration: none;
-  line-height: 1.25;
-  gap: 6px;
+.wp-desa-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
 }
 
-.wp-desa-btn-sm {
-  padding: 4px 10px;
-  font-size: 12px;
-}
-
-.wp-desa-btn-primary {
-  background-color: #2563eb;
-  color: white;
-  border-color: #2563eb;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.wp-desa-btn-primary:hover {
-  background-color: #1d4ed8;
-  color: white;
-}
-
-.wp-desa-btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.wp-desa-btn-secondary {
-  background-color: white;
-  color: #475569;
-  border-color: #cbd5e1;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.wp-desa-btn-secondary:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
-  color: #1e293b;
-}
-
-.wp-desa-btn-danger {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-color: #fecaca;
-}
-
-.wp-desa-btn-danger:hover {
-  background-color: #fecaca;
-  color: #7f1d1d;
-}
-
-/* 3. Tabs */
+/* Tabs */
 .wp-desa-tabs {
   display: flex;
   border-bottom: 1px solid #e2e8f0;
@@ -128,6 +78,10 @@
   border-bottom-color: #2563eb;
 }
 
+.wp-desa-tab-content {
+  padding: 20px;
+}
+
 .wp-desa-tab-count {
   background: #e2e8f0;
   color: #475569;
@@ -142,23 +96,63 @@
   color: #2563eb;
 }
 
-.wp-desa-tab-content {
-  padding: 24px;
-  animation: fadeIn 0.3s ease-out;
+/* Buttons */
+.wp-desa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  text-decoration: none;
+  line-height: 1.25;
+  gap: 6px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.wp-desa-btn-primary {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
 }
 
-/* 4. Tables */
+.wp-desa-btn-primary:hover {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.wp-desa-btn-secondary {
+  background-color: white;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.wp-desa-btn-secondary:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #1e293b;
+}
+
+.wp-desa-btn-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.wp-desa-btn-danger:hover {
+  background-color: #fecaca;
+  color: #7f1d1d;
+}
+
+.wp-desa-btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* Table */
 .wp-desa-table {
   width: 100%;
   border-collapse: collapse;
@@ -191,7 +185,7 @@
   background-color: #f8fafc;
 }
 
-/* 5. Badges */
+/* Badges */
 .wp-desa-badge {
   padding: 4px 10px;
   border-radius: 99px;
@@ -207,73 +201,64 @@
 }
 
 .wp-desa-badge-success,
-.wp-desa-badge-completed {
+.wp-desa-badge-resolved,
+.wp-desa-badge-completed,
+.wp-desa-badge-income {
   background: #dcfce7;
   color: #166534;
 }
 
 .wp-desa-badge-warning,
+.wp-desa-badge-in_progress,
 .wp-desa-badge-processed {
   background: #fef3c7;
   color: #d97706;
 }
 
 .wp-desa-badge-danger,
-.wp-desa-badge-rejected {
+.wp-desa-badge-rejected,
+.wp-desa-badge-expense {
   background: #fee2e2;
   color: #991b1b;
 }
 
-/* 6. Form Elements */
+/* Form Elements */
 .wp-desa-form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 16px;
+}
+
+.wp-desa-form-group {
+  margin-bottom: 16px;
+}
+
+.wp-desa-form-group.full-width {
+  grid-column: span 2;
 }
 
 .wp-desa-label {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #334155;
-  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 6px;
 }
 
-.wp-desa-wrapper input[type="text"],
-.wp-desa-wrapper input[type="email"],
-.wp-desa-wrapper input[type="password"],
-.wp-desa-wrapper input[type="number"],
-.wp-desa-wrapper input[type="date"],
-.wp-desa-wrapper input[type="tel"],
-.wp-desa-wrapper input[type="url"],
-.wp-desa-wrapper select,
-.wp-desa-wrapper textarea,
-.wp-desa-modal-content input[type="text"],
-.wp-desa-modal-content input[type="email"],
-.wp-desa-modal-content input[type="password"],
-.wp-desa-modal-content input[type="number"],
-.wp-desa-modal-content input[type="date"],
-.wp-desa-modal-content input[type="tel"],
-.wp-desa-modal-content input[type="url"],
-.wp-desa-modal-content select,
-.wp-desa-modal-content textarea,
 .wp-desa-input,
 .wp-desa-select,
 .wp-desa-textarea {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
+  padding: 8px 12px;
+  border-radius: 6px;
   border: 1px solid #cbd5e1;
   font-size: 14px;
   color: #1e293b;
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
   background-color: #fff;
-  line-height: 1.5;
 }
 
-.wp-desa-wrapper select,
-.wp-desa-modal-content select,
 .wp-desa-select {
   appearance: none;
   -webkit-appearance: none;
@@ -285,12 +270,6 @@
   padding-right: 2.5rem;
 }
 
-.wp-desa-wrapper input:focus,
-.wp-desa-wrapper select:focus,
-.wp-desa-wrapper textarea:focus,
-.wp-desa-modal-content input:focus,
-.wp-desa-modal-content select:focus,
-.wp-desa-modal-content textarea:focus,
 .wp-desa-input:focus,
 .wp-desa-select:focus,
 .wp-desa-textarea:focus {
@@ -299,23 +278,17 @@
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
-.wp-desa-helper {
-  font-size: 13px;
-  color: #64748b;
-  margin-top: 6px;
-}
-
 .wp-desa-image-preview {
+  margin-bottom: 12px;
   width: 120px;
   height: 120px;
+  border: 2px dashed #cbd5e1;
   border-radius: 8px;
-  border: 1px dashed #cbd5e1;
-  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-bottom: 12px;
+  background: #f8fafc;
 }
 
 .wp-desa-image-preview img {
@@ -324,7 +297,120 @@
   object-fit: contain;
 }
 
-/* 7. Toast */
+/* Toggle Switch (Settings) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #2563eb;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2563eb;
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Modal */
+.wp-desa-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.wp-desa-modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wp-desa-modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wp-desa-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.wp-desa-modal-body {
+  padding: 20px;
+}
+
+.wp-desa-modal-footer {
+  padding: 20px;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Notification / Toast */
 .wp-desa-toast {
   position: fixed;
   bottom: 24px;
@@ -344,97 +430,33 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.wp-desa-toast.success {
-  background: #10b981;
-}
-
 .wp-desa-toast.error {
   background: #ef4444;
 }
 
-/* 8. Modals (Legacy & Alpine) */
-.wp-desa-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.wp-desa-modal-overlay[x-show="true"],
-.wp-desa-modal-overlay:not([style*="display: none"]) {
-  opacity: 1;
-  visibility: visible;
-}
-
-.wp-desa-modal-content {
-  background-color: #fff;
-  width: 100%;
-  max-width: 32rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  overflow: hidden;
-  transform: scale(0.95);
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  max-height: 90vh;
-}
-
-.wp-desa-modal-overlay:not([style*="display: none"]) .wp-desa-modal-content {
-  transform: scale(1);
-}
-
-.wp-desa-modal-header {
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+/* Pagination */
+.wp-desa-pagination {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f9fafb;
+  padding: 16px;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f8fafc;
 }
 
-.wp-desa-modal-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #111827;
-  margin: 0;
+.wp-desa-pagination-info {
+  font-size: 13px;
+  color: #64748b;
 }
 
-.wp-desa-modal-body {
-  padding: 1.5rem;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.wp-desa-modal-footer {
-  padding: 1rem 1.5rem;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+.wp-desa-pagination-controls {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Modal form overrides - now handled by global styles */
-.wp-desa-modal-content .form-table {
-  margin-top: 0;
-}
-.wp-desa-modal-content .form-table th {
-  padding: 10px 0;
-  width: 140px;
+.wp-desa-pagination-page {
+  font-size: 13px;
+  color: #475569;
   font-weight: 500;
-}
-.wp-desa-modal-content .form-table td {
-  padding: 5px 0 10px 0;
 }

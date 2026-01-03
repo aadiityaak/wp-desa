@@ -16,7 +16,7 @@
         <div class="wp-desa-list" style="display: flex; flex-direction: column; gap: 30px;">
             <?php while (have_posts()) : the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> style="background: #fff; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); overflow: hidden; display: flex; flex-direction: row; align-items: stretch; transition: transform 0.2s;">
-                    
+
                     <?php if (has_post_thumbnail()) : ?>
                         <div class="post-thumbnail" style="width: 300px; flex-shrink: 0; overflow: hidden;">
                             <a href="<?php the_permalink(); ?>" style="display: block; height: 100%;">
@@ -41,7 +41,7 @@
                         <h2 class="entry-title" style="font-size: 1.75rem; font-weight: 700; margin: 0 0 15px 0; line-height: 1.3;">
                             <a href="<?php the_permalink(); ?>" style="color: #1e293b; text-decoration: none;"><?php the_title(); ?></a>
                         </h2>
-                        
+
                         <div class="entry-excerpt" style="color: #64748b; font-size: 1rem; line-height: 1.6; margin-bottom: 25px;">
                             <?php echo wp_trim_words(get_the_excerpt(), 30); ?>
                         </div>
@@ -73,34 +73,6 @@
     <?php endif; ?>
 </div>
 
-<style>
-    @media (max-width: 768px) {
-        .wp-desa-list article { flex-direction: column; }
-        .wp-desa-list .post-thumbnail { width: 100%; height: 200px; }
-    }
-    .wp-desa-list article:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-    .wp-desa-list article:hover .post-thumbnail img { transform: scale(1.05); }
-    .pagination .page-numbers {
-        display: inline-block;
-        padding: 8px 16px;
-        margin: 0 4px;
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        color: #64748b;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-    .pagination .page-numbers.current,
-    .pagination .page-numbers:hover {
-        background: #16a34a;
-        color: #fff;
-        border-color: #16a34a;
-    }
-    .pagination .page-numbers.dots {
-        border: none;
-        background: transparent;
-    }
-</style>
+<!-- CSS moved to assets/css/frontend/style.css -->
 
 <?php get_footer(); ?>

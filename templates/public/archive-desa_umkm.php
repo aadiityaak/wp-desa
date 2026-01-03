@@ -76,30 +76,6 @@
     <?php endif; ?>
 </div>
 
-<style>
-    .wp-desa-grid article:hover { transform: translateY(-5px); }
-    .wp-desa-grid article:hover img { transform: scale(1.05); }
-    .pagination .page-numbers {
-        display: inline-block;
-        padding: 8px 16px;
-        margin: 0 4px;
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        color: #64748b;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-    .pagination .page-numbers.current,
-    .pagination .page-numbers:hover {
-        background: #2563eb;
-        color: #fff;
-        border-color: #2563eb;
-    }
-    .pagination .page-numbers.dots {
-        border: none;
-        background: transparent;
-    }
-</style>
+<!-- CSS moved to assets/css/frontend/style.css -->
 
 <?php get_footer(); ?>

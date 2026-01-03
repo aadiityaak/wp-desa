@@ -58,14 +58,6 @@
     <?php endwhile; ?>
 </div>
 
-<style>
-    .entry-content p { margin-bottom: 1.5em; }
-    .entry-content h2 { font-size: 2rem; margin-top: 2em; margin-bottom: 0.75em; color: #1e293b; font-weight: 700; }
-    .entry-content h3 { font-size: 1.5rem; margin-top: 2em; margin-bottom: 0.75em; color: #1e293b; font-weight: 600; }
-    .entry-content ul, .entry-content ol { margin-bottom: 1.5em; padding-left: 1.5em; }
-    .entry-content li { margin-bottom: 0.5em; }
-    .entry-content blockquote { border-left: 4px solid #16a34a; padding-left: 20px; font-style: italic; color: #475569; margin: 2em 0; }
-    .entry-content img { max-width: 100%; height: auto; border-radius: 12px; }
-</style>
+<!-- CSS moved to assets/css/frontend/style.css -->
 
 <?php get_footer(); ?>

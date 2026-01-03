@@ -5,6 +5,10 @@ namespace WpDesa\Integrations\Elementor\Widgets;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+
 class WpDesaFeatureWidget extends Widget_Base
 {
     public function get_name()
@@ -61,6 +65,9 @@ class WpDesaFeatureWidget extends Widget_Base
             [
                 'label' => 'Jumlah UMKM',
                 'type' => Controls_Manager::NUMBER,
+                'min' => 1,
+                'max' => 20,
+                'step' => 1,
                 'default' => 6,
                 'condition' => [
                     'feature_type' => 'umkm',
@@ -90,6 +97,9 @@ class WpDesaFeatureWidget extends Widget_Base
             [
                 'label' => 'Jumlah Potensi',
                 'type' => Controls_Manager::NUMBER,
+                'min' => 1,
+                'max' => 20,
+                'step' => 1,
                 'default' => 3,
                 'condition' => [
                     'feature_type' => 'potensi',
@@ -103,50 +113,41 @@ class WpDesaFeatureWidget extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings_for_display();
+        $feature_type = $settings['feature_type'];
 
-        switch ($settings['feature_type']) {
+        switch ($feature_type) {
             case 'profil':
                 echo do_shortcode('[wp_desa_profil]');
                 break;
-
             case 'kepala_desa':
                 echo do_shortcode('[wp_desa_kepala_desa]');
                 break;
-
             case 'statistik':
                 echo do_shortcode('[wp_desa_statistik]');
                 break;
-
             case 'umkm':
-                $limit = !empty($settings['umkm_limit']) ? $settings['umkm_limit'] : 6;
-                $cols = !empty($settings['umkm_cols']) ? $settings['umkm_cols'] : 3;
+                $limit = $settings['umkm_limit'];
+                $cols = $settings['umkm_cols'];
                 echo do_shortcode("[wp_desa_umkm limit='{$limit}' cols='{$cols}']");
                 break;
-
             case 'potensi':
-                $limit = !empty($settings['potensi_limit']) ? $settings['potensi_limit'] : 3;
+                $limit = $settings['potensi_limit'];
                 echo do_shortcode("[wp_desa_potensi limit='{$limit}']");
                 break;
-
             case 'layanan':
                 echo do_shortcode('[wp_desa_layanan]');
                 break;
-
             case 'aduan':
                 echo do_shortcode('[wp_desa_aduan]');
                 break;
-
             case 'keuangan':
                 echo do_shortcode('[wp_desa_keuangan]');
                 break;
-
             case 'bantuan':
                 echo do_shortcode('[wp_desa_bantuan]');
                 break;
-
             default:
-                echo 'Pilih fitur yang ingin ditampilkan.';
-                break;
+                echo 'Fitur tidak ditemukan.';
         }
     }
 }

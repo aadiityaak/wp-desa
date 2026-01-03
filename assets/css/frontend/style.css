@@ -212,3 +212,98 @@
   display: inline-block;
   margin-top: 0.5rem;
 }
+
+/* Public Templates CSS */
+
+/* From archive-desa_potensi.php */
+@media (max-width: 768px) {
+  .wp-desa-list article {
+    flex-direction: column;
+  }
+  .wp-desa-list .post-thumbnail {
+    width: 100%;
+    height: 200px;
+  }
+}
+.wp-desa-list article:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.wp-desa-list article:hover .post-thumbnail img {
+  transform: scale(1.05);
+}
+.pagination .page-numbers {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 0 4px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #64748b;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.pagination .page-numbers.current,
+.pagination .page-numbers:hover {
+  background: #16a34a;
+  color: #fff;
+  border-color: #16a34a;
+}
+.pagination .page-numbers.dots {
+  border: none;
+  background: transparent;
+}
+
+/* From archive-desa_umkm.php */
+.wp-desa-grid article:hover {
+  transform: translateY(-5px);
+}
+.wp-desa-grid article:hover img {
+  transform: scale(1.05);
+}
+/* Note: Pagination styles are duplicated here but with different color (#2563eb).
+   Ensure specific targeting if needed, or unify colors. */
+.pagination .page-numbers.current,
+.pagination .page-numbers:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+/* From single-desa_potensi.php */
+.entry-content p {
+  margin-bottom: 1.5em;
+}
+.entry-content h2 {
+  font-size: 2rem;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  color: #1e293b;
+  font-weight: 700;
+}
+.entry-content h3 {
+  font-size: 1.5rem;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  color: #1e293b;
+  font-weight: 600;
+}
+.entry-content ul,
+.entry-content ol {
+  margin-bottom: 1.5em;
+  padding-left: 1.5em;
+}
+.entry-content li {
+  margin-bottom: 0.5em;
+}
+.entry-content blockquote {
+  border-left: 4px solid #16a34a;
+  padding-left: 20px;
+  font-style: italic;
+  color: #475569;
+  margin: 2em 0;
+}
+.entry-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
