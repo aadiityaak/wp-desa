@@ -20,6 +20,7 @@ class Seeder {
         
         for ($i = 0; $i < $count; $i++) {
             $nik = self::generate_nik();
+            $no_kk = self::generate_nik(); // Reuse NIK generator for KK as format is similar
             
             // Check uniqueness
             if ($wpdb->get_var($wpdb->prepare("SELECT id FROM $table_name WHERE nik = %s", $nik))) {
@@ -32,6 +33,7 @@ class Seeder {
             
             $data = [
                 'nik' => $nik,
+                'no_kk' => $no_kk,
                 'nama_lengkap' => $name,
                 'jenis_kelamin' => $gender,
                 'tempat_lahir' => $cities[array_rand($cities)],

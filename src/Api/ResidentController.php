@@ -96,6 +96,7 @@ class ResidentController extends WP_REST_Controller
 
         $data = [
             'nik' => sanitize_text_field($params['nik']),
+            'no_kk' => sanitize_text_field($params['no_kk'] ?? ''),
             'nama_lengkap' => sanitize_text_field($params['nama_lengkap']),
             'jenis_kelamin' => sanitize_text_field($params['jenis_kelamin']),
             'tempat_lahir' => sanitize_text_field($params['tempat_lahir']),
@@ -131,6 +132,7 @@ class ResidentController extends WP_REST_Controller
 
         $data = [
             'nik' => sanitize_text_field($params['nik']),
+            'no_kk' => sanitize_text_field($params['no_kk'] ?? ''),
             'nama_lengkap' => sanitize_text_field($params['nama_lengkap']),
             'jenis_kelamin' => sanitize_text_field($params['jenis_kelamin']),
             'tempat_lahir' => sanitize_text_field($params['tempat_lahir']),

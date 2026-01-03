@@ -39,7 +39,14 @@ class Shortcode
                 $total = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
                 $male = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE jenis_kelamin = 'Laki-laki'");
                 $female = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE jenis_kelamin = 'Perempuan'");
-                $families = (int) $wpdb->get_var("SELECT COUNT(DISTINCT no_kk) FROM $table WHERE no_kk != ''");
+
+                // Check if no_kk column exists before querying to avoid errors on older DB versions
+                $has_kk = $wpdb->get_results("SHOW COLUMNS FROM $table LIKE 'no_kk'");
+                if (!empty($has_kk)) {
+                    $families = (int) $wpdb->get_var("SELECT COUNT(DISTINCT no_kk) FROM $table WHERE no_kk != ''");
+                } else {
+                    $families = 0;
+                }
 
                 $stats = [
                     'total' => $total,

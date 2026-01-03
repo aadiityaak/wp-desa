@@ -14,6 +14,7 @@ class Activator
         $sql_residents = "CREATE TABLE $table_residents (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             nik varchar(20) NOT NULL,
+            no_kk varchar(20) DEFAULT '',
             nama_lengkap varchar(100) NOT NULL,
             jenis_kelamin enum('Laki-laki', 'Perempuan') NOT NULL,
             tempat_lahir varchar(100) NOT NULL,
