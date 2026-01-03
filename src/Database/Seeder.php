@@ -47,6 +47,60 @@ class Seeder {
             }
         }
 
+        // Also seed letters
+        self::seed_letters(intval($count / 2)); // 50% of resident count
+
+        return $inserted;
+    }
+
+    public static function seed_letters($count = 50) {
+        global $wpdb;
+        $table_letters = $wpdb->prefix . 'desa_letters';
+        $table_residents = $wpdb->prefix . 'desa_residents';
+        $table_types = $wpdb->prefix . 'desa_letter_types';
+
+        // Get some residents
+        $residents = $wpdb->get_results("SELECT nik, nama_lengkap FROM $table_residents ORDER BY RAND() LIMIT $count");
+        if (empty($residents)) return 0;
+
+        // Get letter types
+        $types = $wpdb->get_col("SELECT id FROM $table_types");
+        if (empty($types)) return 0;
+
+        $statuses = ['pending', 'processed', 'completed', 'rejected'];
+        $details_list = [
+            'Untuk persyaratan melamar pekerjaan',
+            'Untuk mengurus rekening bank',
+            'Untuk pendaftaran sekolah anak',
+            'Untuk keperluan administrasi nikah',
+            'Untuk pengurusan BPJS',
+            'Untuk pembuatan KTP baru',
+            'Untuk pindah domisili'
+        ];
+
+        $inserted = 0;
+
+        foreach ($residents as $resident) {
+            $tracking_code = strtoupper(wp_generate_password(8, false));
+            $created_at = date('Y-m-d H:i:s', rand(strtotime('-3 months'), time()));
+
+            $data = [
+                'tracking_code' => $tracking_code,
+                'letter_type_id' => $types[array_rand($types)],
+                'nik' => $resident->nik,
+                'name' => $resident->nama_lengkap,
+                'phone' => '08' . rand(100000000, 999999999),
+                'details' => $details_list[array_rand($details_list)],
+                'status' => $statuses[array_rand($statuses)],
+                'created_at' => $created_at,
+                'updated_at' => $created_at
+            ];
+
+            if ($wpdb->insert($table_letters, $data)) {
+                $inserted++;
+            }
+        }
+
         return $inserted;
     }
 

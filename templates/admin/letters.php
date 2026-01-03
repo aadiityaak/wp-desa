@@ -1,5 +1,6 @@
 <div class="wrap" x-data="lettersManager()">
     <h1 class="wp-heading-inline">Layanan Surat Online</h1>
+    <button @click="generateDummy" class="page-title-action">Generate Dummy (Dev)</button>
     <hr class="wp-header-end">
 
     <!-- Filters -->
@@ -166,6 +167,28 @@ function lettersManager() {
                 } else {
                     alert('Gagal update status');
                 }
+            });
+        },
+
+        generateDummy() {
+            if (!confirm('Buat 20 data permohonan surat dummy? Pastikan sudah ada data penduduk.')) return;
+            
+            this.loading = true;
+            fetch('/wp-json/wp-desa/v1/letters/seed', {
+                method: 'POST',
+                headers: {
+                    'X-WP-Nonce': '<?php echo wp_create_nonce("wp_rest"); ?>'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message || 'Berhasil generate dummy data.');
+                this.fetchLetters();
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Terjadi kesalahan.');
+                this.loading = false;
             });
         },
 

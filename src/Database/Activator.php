@@ -59,8 +59,11 @@ class Activator {
         dbDelta($sql_letter_types);
         dbDelta($sql_letters);
 
-        // Seed Letter Types if empty
+        // Seed Letter Types if empty (Force check)
+        // Using $wpdb->get_var directly sometimes fails in activation hook context if dbDelta just ran
+        // But let's try to be robust.
         $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_letter_types");
+        
         if ($count == 0) {
             $types = [
                 ['SKD', 'Surat Keterangan Domisili', 'Surat untuk menerangkan domisili penduduk.'],

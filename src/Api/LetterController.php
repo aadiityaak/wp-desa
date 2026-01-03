@@ -55,10 +55,47 @@ class LetterController extends WP_REST_Controller {
                 'permission_callback' => [$this, 'permissions_check'],
             ],
         ]);
+
+        // Admin: Seed Dummy Data
+        register_rest_route($namespace, '/' . $base . '/seed', [
+            [
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => [$this, 'seed_items'],
+                'permission_callback' => [$this, 'permissions_check'],
+            ],
+        ]);
     }
 
     public function permissions_check() {
         return current_user_can('manage_options');
+    }
+
+    public function seed_items($request) {
+        global $wpdb;
+        $table_residents = $wpdb->prefix . 'desa_residents';
+        $table_types = $wpdb->prefix . 'desa_letter_types';
+
+        // Diagnose why seeding might fail
+        $res_count = $wpdb->get_var("SELECT COUNT(*) FROM $table_residents");
+        if ($res_count == 0) {
+            // Auto-seed residents if empty
+            \WpDesa\Database\Seeder::run(50); // This seeds residents
+            $res_count = $wpdb->get_var("SELECT COUNT(*) FROM $table_residents");
+        }
+
+        $type_count = $wpdb->get_var("SELECT COUNT(*) FROM $table_types");
+        if ($type_count == 0) {
+            // Try to auto-fix types
+            \WpDesa\Database\Activator::activate();
+            $type_count = $wpdb->get_var("SELECT COUNT(*) FROM $table_types");
+            if ($type_count == 0) {
+                return new \WP_Error('no_types', 'Gagal: Data jenis surat kosong.', ['status' => 400]);
+            }
+        }
+
+        $count = 20; // Default seed count for letters
+        $inserted = \WpDesa\Database\Seeder::seed_letters($count);
+        return rest_ensure_response(['message' => "$inserted data permohonan surat berhasil dibuat.", 'count' => $inserted]);
     }
 
     public function get_types() {
