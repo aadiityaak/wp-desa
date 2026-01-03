@@ -17,10 +17,28 @@ class DashboardController extends WP_REST_Controller {
                 'permission_callback' => [$this, 'permissions_check'],
             ],
         ]);
+
+        register_rest_route($namespace, '/' . $base . '/seed-all', [
+            [
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => [$this, 'seed_all'],
+                'permission_callback' => [$this, 'permissions_check'],
+            ],
+        ]);
     }
 
     public function permissions_check() {
         return current_user_can('manage_options');
+    }
+
+    public function seed_all() {
+        require_once plugin_dir_path(dirname(__FILE__)) . 'Database/Seeder.php';
+        $count = \WpDesa\Database\Seeder::run(50);
+        return rest_ensure_response([
+            'success' => true,
+            'message' => 'Berhasil membuat data dummy (Penduduk, Surat, Aduan, Keuangan).',
+            'count' => $count
+        ]);
     }
 
     public function get_stats() {

@@ -1,5 +1,6 @@
 <div class="wrap" x-data="dashboardManager()">
     <h1 class="wp-heading-inline">Dashboard WP Desa</h1>
+    <button @click="generateAllDummy" class="page-title-action">Generate All Dummy Data</button>
     <hr class="wp-header-end">
 
     <div class="wp-desa-dashboard-widgets" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
@@ -43,6 +44,30 @@
 
             init() {
                 this.fetchStats();
+            },
+
+            generateAllDummy() {
+                if (!confirm('Apakah Anda yakin ingin membuat data dummy untuk SEMUA fitur (Penduduk, Surat, Aduan, Keuangan)?')) return;
+                
+                fetch('<?php echo esc_url_raw(rest_url('wp-desa/v1/dashboard/seed-all')); ?>', {
+                    method: 'POST',
+                    headers: {
+                        'X-WP-Nonce': '<?php echo wp_create_nonce('wp_rest'); ?>'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        this.fetchStats();
+                    } else {
+                        alert('Gagal membuat data dummy.');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Terjadi kesalahan saat request.');
+                });
             },
 
             fetchStats() {

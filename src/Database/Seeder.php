@@ -49,6 +49,12 @@ class Seeder {
 
         // Also seed letters
         self::seed_letters(intval($count / 2)); // 50% of resident count
+        
+        // Seed Complaints
+        self::seed_complaints(intval($count / 4));
+
+        // Seed Finances
+        self::seed_finances(intval($count / 2));
 
         return $inserted;
     }
