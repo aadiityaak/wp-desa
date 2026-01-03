@@ -34,6 +34,9 @@ class Plugin
 
         $letters = new \WpDesa\Api\LetterController();
         add_action('rest_api_init', [$letters, 'register_routes']);
+
+        $complaints = new \WpDesa\Api\ComplaintController();
+        add_action('rest_api_init', [$complaints, 'register_routes']);
     }
 
     private function load_frontend()

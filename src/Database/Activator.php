@@ -2,8 +2,10 @@
 
 namespace WpDesa\Database;
 
-class Activator {
-    public static function activate() {
+class Activator
+{
+    public static function activate()
+    {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
 
@@ -54,16 +56,36 @@ class Activator {
             KEY nik (nik)
         ) $charset_collate;";
 
+        // 4. Complaints/Aspirations Table
+        $table_complaints = $wpdb->prefix . 'desa_complaints';
+        $sql_complaints = "CREATE TABLE $table_complaints (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            tracking_code varchar(20) NOT NULL,
+            reporter_name varchar(100) DEFAULT 'Anonim',
+            reporter_contact varchar(50),
+            category varchar(50) NOT NULL,
+            subject varchar(200) NOT NULL,
+            description longtext NOT NULL,
+            photo_url varchar(255),
+            status enum('pending', 'in_progress', 'resolved', 'rejected') DEFAULT 'pending',
+            response longtext,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            UNIQUE KEY tracking_code (tracking_code)
+        ) $charset_collate;";
+
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql_residents);
         dbDelta($sql_letter_types);
         dbDelta($sql_letters);
+        dbDelta($sql_complaints);
 
         // Seed Letter Types if empty (Force check)
         // Using $wpdb->get_var directly sometimes fails in activation hook context if dbDelta just ran
         // But let's try to be robust.
         $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_letter_types");
-        
+
         if ($count == 0) {
             $types = [
                 ['SKD', 'Surat Keterangan Domisili', 'Surat untuk menerangkan domisili penduduk.'],

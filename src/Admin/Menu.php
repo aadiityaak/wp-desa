@@ -36,6 +36,16 @@ class Menu
             'wp-desa-letters',
             [$this, 'render_letters_page']
         );
+
+        // Submenu Aspirasi & Pengaduan
+        add_submenu_page(
+            'wp-desa',
+            'Aspirasi & Pengaduan',
+            'Aspirasi & Pengaduan',
+            'manage_options',
+            'wp-desa-complaints',
+            [$this, 'render_complaints_page']
+        );
     }
 
     public function enqueue_scripts($hook)
@@ -44,7 +54,8 @@ class Menu
         $allowed_pages = [
             'toplevel_page_wp-desa',
             'wp-desa_page_wp-desa-residents',
-            'wp-desa_page_wp-desa-letters'
+            'wp-desa_page_wp-desa-letters',
+            'wp-desa_page_wp-desa-complaints'
         ];
 
         if (in_array($hook, $allowed_pages)) {
@@ -74,5 +85,10 @@ class Menu
     public function render_letters_page()
     {
         require_once WP_DESA_PATH . 'templates/admin/letters.php';
+    }
+
+    public function render_complaints_page()
+    {
+        require_once WP_DESA_PATH . 'templates/admin/complaints.php';
     }
 }

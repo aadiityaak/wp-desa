@@ -104,6 +104,64 @@ class Seeder {
         return $inserted;
     }
 
+    public static function seed_complaints($count = 20) {
+        global $wpdb;
+        $table_complaints = $wpdb->prefix . 'desa_complaints';
+        
+        // Ensure table exists
+        \WpDesa\Database\Activator::activate();
+
+        $names = ['Anonim', 'Budi Santoso', 'Siti Aminah', 'Warga Peduli', 'Ahmad Dani', 'Rina Nose', 'Joko Anwar', ''];
+        $categories = ['Infrastruktur', 'Pelayanan Publik', 'Keamanan', 'Kebersihan', 'Lainnya'];
+        $subjects = [
+            'Jalan berlubang di RT 05',
+            'Lampu jalan mati sudah seminggu',
+            'Sampah menumpuk di sungai',
+            'Pelayanan kantor desa lambat',
+            'Ada orang mencurigakan tiap malam',
+            'Saluran air mampet',
+            'Permohonan fogging nyamuk'
+        ];
+        $descriptions = [
+            'Mohon segera diperbaiki karena membahayakan pengendara motor.',
+            'Tolong diganti lampunya pak, gelap sekali kalau malam.',
+            'Baunya sangat menyengat dan mengganggu warga sekitar.',
+            'Saya antri dari pagi tapi baru dilayani siang hari.',
+            'Sering nongkrong di pos ronda tapi bukan warga sini.',
+            'Kalau hujan air meluap ke jalan.',
+            'Banyak warga yang terkena demam berdarah.'
+        ];
+        $statuses = ['pending', 'in_progress', 'resolved', 'rejected'];
+
+        $inserted = 0;
+
+        for ($i = 0; $i < $count; $i++) {
+            $tracking_code = 'ADU-' . strtoupper(wp_generate_password(6, false));
+            $created_at = date('Y-m-d H:i:s', rand(strtotime('-3 months'), time()));
+            $status = $statuses[array_rand($statuses)];
+            
+            $data = [
+                'tracking_code' => $tracking_code,
+                'reporter_name' => $names[array_rand($names)] ?: 'Anonim',
+                'reporter_contact' => '08' . rand(100000000, 999999999),
+                'category' => $categories[array_rand($categories)],
+                'subject' => $subjects[array_rand($subjects)],
+                'description' => $descriptions[array_rand($descriptions)],
+                'photo_url' => '', // Dummy photo URL or empty
+                'status' => $status,
+                'response' => ($status == 'resolved' || $status == 'rejected') ? 'Terima kasih atas laporannya. Akan segera kami tindak lanjuti.' : '',
+                'created_at' => $created_at,
+                'updated_at' => $created_at
+            ];
+
+            if ($wpdb->insert($table_complaints, $data)) {
+                $inserted++;
+            }
+        }
+
+        return $inserted;
+    }
+
     private static function generate_nik() {
         // Simple mock NIK generator: 16 digits
         // PPKKCCTGDMMYYSSSS
