@@ -10,13 +10,278 @@ class Shortcode
         add_shortcode('wp_desa_aduan', [$this, 'render_aduan']);
         add_shortcode('wp_desa_keuangan', [$this, 'render_keuangan']);
         add_shortcode('wp_desa_bantuan', [$this, 'render_bantuan']);
+        add_shortcode('wp_desa_profil', [$this, 'render_profil']);
+        add_shortcode('wp_desa_kepala_desa', [$this, 'render_kepala_desa']);
+        add_shortcode('wp_desa_statistik', [$this, 'render_statistik']);
+        add_shortcode('wp_desa_umkm', [$this, 'render_umkm']);
+        add_shortcode('wp_desa_potensi', [$this, 'render_potensi']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
+    }
+
+    public function render_statistik()
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'desa_residents';
+        
+        // Cache results for 1 hour to reduce DB load
+        $stats = get_transient('wp_desa_quick_stats');
+        
+        if (false === $stats) {
+            $total = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+            $male = $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE jenis_kelamin = 'Laki-laki'");
+            $female = $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE jenis_kelamin = 'Perempuan'");
+            $families = $wpdb->get_var("SELECT COUNT(DISTINCT no_kk) FROM $table WHERE no_kk != ''");
+            
+            $stats = [
+                'total' => $total,
+                'male' => $male,
+                'female' => $female,
+                'families' => $families
+            ];
+            
+            set_transient('wp_desa_quick_stats', $stats, HOUR_IN_SECONDS);
+        }
+
+        ob_start();
+        ?>
+        <div class="wp-desa-wrapper">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
+                <!-- Total -->
+                <div class="wp-desa-card" style="text-align: center; padding: 20px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white;">
+                    <div class="dashicons dashicons-groups" style="font-size: 32px; width: 32px; height: 32px; margin-bottom: 10px;"></div>
+                    <div style="font-size: 2em; font-weight: bold;"><?php echo number_format_i18n($stats['total']); ?></div>
+                    <div style="font-size: 0.9em; opacity: 0.9;">Total Penduduk</div>
+                </div>
+                
+                <!-- KK -->
+                <div class="wp-desa-card" style="text-align: center; padding: 20px; background: white;">
+                    <div class="dashicons dashicons-admin-home" style="font-size: 32px; width: 32px; height: 32px; margin-bottom: 10px; color: #f59e0b;"></div>
+                    <div style="font-size: 2em; font-weight: bold; color: #333;"><?php echo number_format_i18n($stats['families']); ?></div>
+                    <div style="font-size: 0.9em; color: #666;">Kepala Keluarga</div>
+                </div>
+
+                <!-- Laki-laki -->
+                <div class="wp-desa-card" style="text-align: center; padding: 20px; background: white;">
+                    <div class="dashicons dashicons-businessman" style="font-size: 32px; width: 32px; height: 32px; margin-bottom: 10px; color: #0ea5e9;"></div>
+                    <div style="font-size: 2em; font-weight: bold; color: #333;"><?php echo number_format_i18n($stats['male']); ?></div>
+                    <div style="font-size: 0.9em; color: #666;">Laki-laki</div>
+                </div>
+
+                <!-- Perempuan -->
+                <div class="wp-desa-card" style="text-align: center; padding: 20px; background: white;">
+                    <div class="dashicons dashicons-businesswoman" style="font-size: 32px; width: 32px; height: 32px; margin-bottom: 10px; color: #ec4899;"></div>
+                    <div style="font-size: 2em; font-weight: bold; color: #333;"><?php echo number_format_i18n($stats['female']); ?></div>
+                    <div style="font-size: 0.9em; color: #666;">Perempuan</div>
+                </div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    public function render_umkm($atts)
+    {
+        $atts = shortcode_atts([
+            'limit' => 6,
+            'cols' => 3
+        ], $atts);
+
+        $query = new \WP_Query([
+            'post_type' => 'desa_umkm',
+            'posts_per_page' => $atts['limit'],
+            'status' => 'publish'
+        ]);
+
+        ob_start();
+        ?>
+        <div class="wp-desa-wrapper">
+            <?php if ($query->have_posts()): ?>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                    <?php while ($query->have_posts()): $query->the_post(); 
+                        $phone = get_post_meta(get_the_ID(), '_desa_umkm_phone', true);
+                        $location = get_post_meta(get_the_ID(), '_desa_umkm_location', true);
+                    ?>
+                        <div class="wp-desa-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="height: 180px; background: #f1f5f9; overflow: hidden;">
+                                <?php if (has_post_thumbnail()): ?>
+                                    <?php the_post_thumbnail('medium', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+                                <?php else: ?>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #cbd5e1;">
+                                        <span class="dashicons dashicons-store" style="font-size: 48px; width: 48px; height: 48px;"></span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                                <h3 style="margin: 0 0 10px 0; font-size: 1.2em;">
+                                    <a href="<?php the_permalink(); ?>" style="text-decoration: none; color: #1e293b;"><?php the_title(); ?></a>
+                                </h3>
+                                <div style="font-size: 0.9em; color: #64748b; margin-bottom: 15px; flex: 1;">
+                                    <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
+                                </div>
+                                <div style="border-top: 1px solid #f1f5f9; pt: 15px; margin-top: auto; display: flex; gap: 10px;">
+                                    <?php if ($phone): ?>
+                                        <a href="https://wa.me/<?php echo esc_attr($phone); ?>" target="_blank" class="button" style="background: #25D366; color: white; border: none; font-size: 0.85em; display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 4px; text-decoration: none;">
+                                            <span class="dashicons dashicons-whatsapp"></span> WhatsApp
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            <?php else: ?>
+                <p style="text-align: center; color: #666;">Belum ada data UMKM.</p>
+            <?php endif; wp_reset_postdata(); ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    public function render_potensi($atts)
+    {
+        $atts = shortcode_atts([
+            'limit' => 3
+        ], $atts);
+
+        $query = new \WP_Query([
+            'post_type' => 'desa_potensi',
+            'posts_per_page' => $atts['limit'],
+            'status' => 'publish'
+        ]);
+
+        ob_start();
+        ?>
+        <div class="wp-desa-wrapper">
+            <?php if ($query->have_posts()): ?>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <?php while ($query->have_posts()): $query->the_post(); ?>
+                        <div class="wp-desa-card" style="padding: 20px; display: flex; gap: 20px; align-items: start; flex-wrap: wrap;">
+                            <div style="width: 200px; height: 150px; background: #f1f5f9; border-radius: 8px; overflow: hidden; flex-shrink: 0;">
+                                <?php if (has_post_thumbnail()): ?>
+                                    <?php the_post_thumbnail('medium', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+                                <?php else: ?>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #cbd5e1;">
+                                        <span class="dashicons dashicons-carrot" style="font-size: 48px; width: 48px; height: 48px;"></span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <h3 style="margin: 0 0 10px 0;">
+                                    <a href="<?php the_permalink(); ?>" style="text-decoration: none; color: #2271b1;"><?php the_title(); ?></a>
+                                </h3>
+                                <div style="color: #64748b; line-height: 1.6;">
+                                    <?php echo wp_trim_words(get_the_excerpt(), 30); ?>
+                                </div>
+                                <a href="<?php the_permalink(); ?>" style="display: inline-block; margin-top: 10px; font-weight: 500; color: #2563eb; text-decoration: none;">Baca Selengkapnya &rarr;</a>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            <?php else: ?>
+                <p style="text-align: center; color: #666;">Belum ada data Potensi Desa.</p>
+            <?php endif; wp_reset_postdata(); ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    {
+        $settings = get_option('wp_desa_settings');
+        if (!$settings) return '';
+
+        $logo = isset($settings['logo_kabupaten']) ? $settings['logo_kabupaten'] : '';
+        $nama_desa = isset($settings['nama_desa']) ? $settings['nama_desa'] : 'Desa';
+        $nama_kecamatan = isset($settings['nama_kecamatan']) ? $settings['nama_kecamatan'] : '';
+        $nama_kabupaten = isset($settings['nama_kabupaten']) ? $settings['nama_kabupaten'] : '';
+        $alamat = isset($settings['alamat_kantor']) ? $settings['alamat_kantor'] : '';
+        $email = isset($settings['email_desa']) ? $settings['email_desa'] : '';
+        $telepon = isset($settings['telepon_desa']) ? $settings['telepon_desa'] : '';
+
+        ob_start();
+?>
+        <div class="wp-desa-wrapper">
+            <div class="wp-desa-card" style="text-align: center; padding: 30px;">
+                <?php if ($logo): ?>
+                    <img src="<?php echo esc_url($logo); ?>" alt="Logo Kabupaten" style="max-width: 100px; height: auto; margin-bottom: 20px;">
+                <?php endif; ?>
+
+                <h2 style="margin: 0; color: #2271b1;"><?php echo esc_html('Desa ' . $nama_desa); ?></h2>
+                <h4 style="margin: 5px 0 20px 0; color: #666;">
+                    <?php echo esc_html('Kecamatan ' . $nama_kecamatan . ', ' . $nama_kabupaten); ?>
+                </h4>
+
+                <div style="display: flex; flex-direction: column; gap: 10px; align-items: center; max-width: 600px; margin: 0 auto;">
+                    <?php if ($alamat): ?>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="dashicons dashicons-location-alt" style="color: #666;"></span>
+                            <span><?php echo esc_html($alamat); ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($email): ?>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="dashicons dashicons-email" style="color: #666;"></span>
+                            <a href="mailto:<?php echo esc_attr($email); ?>" style="color: #2271b1; text-decoration: none;"><?php echo esc_html($email); ?></a>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($telepon): ?>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="dashicons dashicons-phone" style="color: #666;"></span>
+                            <a href="tel:<?php echo esc_attr($telepon); ?>" style="color: #2271b1; text-decoration: none;"><?php echo esc_html($telepon); ?></a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    <?php
+        return ob_get_clean();
+    }
+
+    public function render_kepala_desa()
+    {
+        $settings = get_option('wp_desa_settings');
+        if (!$settings) return '';
+
+        $nama_kades = isset($settings['kepala_desa']) ? $settings['kepala_desa'] : '';
+        $nip_kades = isset($settings['nip_kepala_desa']) ? $settings['nip_kepala_desa'] : '';
+        $foto_kades = isset($settings['foto_kepala_desa']) ? $settings['foto_kepala_desa'] : '';
+        $nama_desa = isset($settings['nama_desa']) ? $settings['nama_desa'] : 'Desa';
+
+        if (!$nama_kades) return '';
+
+        ob_start();
+    ?>
+        <div class="wp-desa-wrapper">
+            <div class="wp-desa-card" style="text-align: center; padding: 30px; max-width: 400px; margin: 0 auto;">
+                <div style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px auto; border: 4px solid #f1f5f9;">
+                    <?php if ($foto_kades): ?>
+                        <img src="<?php echo esc_url($foto_kades); ?>" alt="Foto Kepala Desa" style="width: 100%; height: 100%; object-fit: cover;">
+                    <?php else: ?>
+                        <div style="width: 100%; height: 100%; background: #e2e8f0; display: flex; align-items: center; justify-content: center;">
+                            <span class="dashicons dashicons-admin-users" style="font-size: 64px; width: 64px; height: 64px; color: #94a3b8;"></span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <h3 style="margin: 0; color: #1e293b;"><?php echo esc_html($nama_kades); ?></h3>
+                <p style="margin: 5px 0; color: #2271b1; font-weight: 500;">Kepala Desa <?php echo esc_html($nama_desa); ?></p>
+
+                <?php if ($nip_kades): ?>
+                    <p style="margin-top: 10px; color: #64748b; font-size: 0.9em; background: #f8fafc; display: inline-block; padding: 4px 12px; border-radius: 12px;">
+                        NIP: <?php echo esc_html($nip_kades); ?>
+                    </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php
+        return ob_get_clean();
     }
 
     public function render_bantuan()
     {
         ob_start();
-?>
+    ?>
         <div id="wp-desa-bantuan" class="wp-desa-wrapper" x-data="bantuanDesa()">
             <h2 class="wp-desa-title" style="text-align:center;">Program & Bantuan Sosial</h2>
 
