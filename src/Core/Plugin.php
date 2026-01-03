@@ -28,6 +28,9 @@ class Plugin
             $menu = new Menu();
             add_action('admin_menu', [$menu, 'register_menus']);
             add_action('admin_enqueue_scripts', [$menu, 'enqueue_scripts']);
+
+            $meta_boxes = new \WpDesa\Admin\MetaBoxes();
+            $meta_boxes->register();
         }
     }
 

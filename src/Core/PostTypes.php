@@ -7,6 +7,76 @@ class PostTypes
     public function register()
     {
         add_action('init', [$this, 'register_potensi_desa']);
+        add_action('init', [$this, 'register_umkm_desa']);
+    }
+
+    public function register_umkm_desa()
+    {
+        // Register Taxonomy
+        $labels_cat = [
+            'name'              => 'Kategori UMKM',
+            'singular_name'     => 'Kategori UMKM',
+            'search_items'      => 'Cari Kategori',
+            'all_items'         => 'Semua Kategori',
+            'parent_item'       => 'Induk Kategori',
+            'parent_item_colon' => 'Induk Kategori:',
+            'edit_item'         => 'Edit Kategori',
+            'update_item'       => 'Update Kategori',
+            'add_new_item'      => 'Tambah Kategori Baru',
+            'new_item_name'     => 'Nama Kategori Baru',
+            'menu_name'         => 'Kategori',
+        ];
+
+        register_taxonomy('desa_umkm_cat', ['desa_umkm'], [
+            'hierarchical'      => true,
+            'labels'            => $labels_cat,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+            'rewrite'           => ['slug' => 'kategori-umkm'],
+            'show_in_rest'      => true,
+        ]);
+
+        // Register Post Type
+        $labels = [
+            'name'                  => 'UMKM Desa',
+            'singular_name'         => 'UMKM Desa',
+            'menu_name'             => 'UMKM Desa',
+            'name_admin_bar'        => 'UMKM Desa',
+            'add_new'               => 'Tambah Baru',
+            'add_new_item'          => 'Tambah UMKM Baru',
+            'new_item'              => 'UMKM Baru',
+            'edit_item'             => 'Edit UMKM',
+            'view_item'             => 'Lihat UMKM',
+            'all_items'             => 'Semua UMKM',
+            'search_items'          => 'Cari UMKM',
+            'parent_item_colon'     => 'Induk UMKM:',
+            'not_found'             => 'Tidak ditemukan UMKM.',
+            'not_found_in_trash'    => 'Tidak ditemukan di tempat sampah.',
+            'featured_image'        => 'Foto Produk Utama',
+            'set_featured_image'    => 'Atur foto produk',
+            'remove_featured_image' => 'Hapus foto produk',
+            'use_featured_image'    => 'Gunakan sebagai foto produk',
+        ];
+
+        $args = [
+            'labels'             => $labels,
+            'public'             => true,
+            'publicly_queryable' => true,
+            'show_ui'            => true,
+            'show_in_menu'       => true,
+            'query_var'          => true,
+            'rewrite'            => ['slug' => 'umkm-desa'],
+            'capability_type'    => 'post',
+            'has_archive'        => true,
+            'hierarchical'       => false,
+            'menu_position'      => 6,
+            'menu_icon'          => 'dashicons-store',
+            'supports'           => ['title', 'editor', 'thumbnail', 'excerpt'],
+            'show_in_rest'       => true,
+        ];
+
+        register_post_type('desa_umkm', $args);
     }
 
     public function register_potensi_desa()
