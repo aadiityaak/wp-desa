@@ -10,9 +10,16 @@ class Plugin
 {
     public function run()
     {
+        $this->load_core();
         $this->load_admin();
         $this->load_api();
         $this->load_frontend();
+    }
+
+    private function load_core()
+    {
+        $post_types = new PostTypes();
+        $post_types->register();
     }
 
     private function load_admin()

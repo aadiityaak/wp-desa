@@ -155,5 +155,28 @@ class Activator
                 ]);
             }
         }
+
+        // Seed Potensi Categories
+        self::seed_potensi_categories();
+    }
+
+    private static function seed_potensi_categories()
+    {
+        // Ensure CPT & Taxonomy are registered
+        $post_types = new \WpDesa\Core\PostTypes();
+        $post_types->register_potensi_desa();
+
+        $categories = [
+            'Pertanian',
+            'Peternakan',
+            'Perikanan',
+            'Pariwisata desa'
+        ];
+
+        foreach ($categories as $cat) {
+            if (!term_exists($cat, 'desa_potensi_cat')) {
+                wp_insert_term($cat, 'desa_potensi_cat');
+            }
+        }
     }
 }
