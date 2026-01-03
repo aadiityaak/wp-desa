@@ -6,8 +6,10 @@ use WP_REST_Controller;
 use WP_REST_Server;
 use WP_Error;
 
-class ComplaintController extends WP_REST_Controller {
-    public function register_routes() {
+class ComplaintController extends WP_REST_Controller
+{
+    public function register_routes()
+    {
         $namespace = 'wp-desa/v1';
         $base = 'complaints';
 
@@ -57,11 +59,13 @@ class ComplaintController extends WP_REST_Controller {
         ]);
     }
 
-    public function permissions_check() {
+    public function permissions_check()
+    {
         return current_user_can('manage_options');
     }
 
-    public function create_complaint($request) {
+    public function create_complaint($request)
+    {
         global $wpdb;
         $table_complaints = $wpdb->prefix . 'desa_complaints';
 
@@ -79,7 +83,7 @@ class ComplaintController extends WP_REST_Controller {
         $files = $request->get_file_params();
         if (!empty($files['photo'])) {
             $file = $files['photo'];
-            
+
             // Validate file type
             $allowed_types = ['image/jpeg', 'image/png', 'image/jpg'];
             if (!in_array($file['type'], $allowed_types)) {
@@ -101,7 +105,7 @@ class ComplaintController extends WP_REST_Controller {
         }
 
         $tracking_code = 'ADU-' . strtoupper(wp_generate_password(6, false));
-        
+
         $data = [
             'tracking_code' => $tracking_code,
             'reporter_name' => !empty($params['reporter_name']) ? sanitize_text_field($params['reporter_name']) : 'Anonim',
@@ -127,7 +131,8 @@ class ComplaintController extends WP_REST_Controller {
         ]);
     }
 
-    public function track_complaint($request) {
+    public function track_complaint($request)
+    {
         global $wpdb;
         $table_complaints = $wpdb->prefix . 'desa_complaints';
 
@@ -145,21 +150,62 @@ class ComplaintController extends WP_REST_Controller {
         return rest_ensure_response($complaint);
     }
 
-    public function get_complaints($request) {
+    public function get_complaints($request)
+    {
         global $wpdb;
         $table_complaints = $wpdb->prefix . 'desa_complaints';
 
         $status = $request->get_param('status');
+        $page = $request->get_param('page') ? intval($request->get_param('page')) : 1;
+        $per_page = $request->get_param('per_page') ? intval($request->get_param('per_page')) : 20;
+        $offset = ($page - 1) * $per_page;
+
         $where = '';
         if (!empty($status)) {
             $where = $wpdb->prepare("WHERE status = %s", $status);
         }
 
-        $results = $wpdb->get_results("SELECT * FROM $table_complaints $where ORDER BY created_at DESC");
-        return rest_ensure_response($results);
+        // Count total items
+        $count_sql = "SELECT COUNT(*) FROM $table_complaints $where";
+        $total_items = (int) $wpdb->get_var($count_sql);
+        $total_pages = ceil($total_items / $per_page);
+
+        // Get actual data
+        $sql = "SELECT * FROM $table_complaints $where ORDER BY created_at DESC LIMIT %d OFFSET %d";
+        $prepared_sql = $wpdb->prepare($sql, $per_page, $offset);
+        $results = $wpdb->get_results($prepared_sql);
+
+        // Get counts for all statuses
+        $counts_sql = "SELECT status, COUNT(*) as count FROM $table_complaints GROUP BY status";
+        $counts_results = $wpdb->get_results($counts_sql);
+        $status_counts = [
+            'all' => 0,
+            'pending' => 0,
+            'in_progress' => 0,
+            'resolved' => 0,
+            'rejected' => 0
+        ];
+        foreach ($counts_results as $row) {
+            if (isset($status_counts[$row->status])) {
+                $status_counts[$row->status] = (int)$row->count;
+            }
+            $status_counts['all'] += (int)$row->count;
+        }
+
+        return rest_ensure_response([
+            'data' => $results,
+            'meta' => [
+                'current_page' => $page,
+                'per_page' => $per_page,
+                'total_items' => $total_items,
+                'total_pages' => $total_pages
+            ],
+            'counts' => $status_counts
+        ]);
     }
 
-    public function update_status($request) {
+    public function update_status($request)
+    {
         global $wpdb;
         $table_complaints = $wpdb->prefix . 'desa_complaints';
         $id = $request['id'];
@@ -189,13 +235,14 @@ class ComplaintController extends WP_REST_Controller {
         return rest_ensure_response(['success' => true, 'id' => $id, 'status' => $status]);
     }
 
-    public function seed_items($request) {
+    public function seed_items($request)
+    {
         require_once plugin_dir_path(dirname(__FILE__)) . 'Database/Seeder.php';
-        
+
         $count = \WpDesa\Database\Seeder::seed_complaints(20);
-        
+
         return rest_ensure_response([
-            'success' => true, 
+            'success' => true,
             'message' => "$count dummy complaints created.",
             'count' => $count
         ]);
