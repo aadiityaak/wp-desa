@@ -1,6 +1,358 @@
 /* WP Desa Admin General Styles - Tailwind-inspired */
 
-/* Overlay */
+/* 1. Global & Layout */
+.wp-desa-wrapper {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  color: #1e293b;
+}
+
+.wp-desa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-top: 10px;
+}
+
+.wp-desa-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.wp-desa-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.wp-desa-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* 2. Buttons */
+.wp-desa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  text-decoration: none;
+  line-height: 1.25;
+  gap: 6px;
+}
+
+.wp-desa-btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.wp-desa-btn-primary {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.wp-desa-btn-primary:hover {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.wp-desa-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.wp-desa-btn-secondary {
+  background-color: white;
+  color: #475569;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.wp-desa-btn-secondary:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #1e293b;
+}
+
+.wp-desa-btn-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.wp-desa-btn-danger:hover {
+  background-color: #fecaca;
+  color: #7f1d1d;
+}
+
+/* 3. Tabs */
+.wp-desa-tabs {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 0 16px;
+  gap: 24px;
+}
+
+.wp-desa-tab {
+  padding: 16px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.wp-desa-tab:hover {
+  color: #1e293b;
+}
+
+.wp-desa-tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+.wp-desa-tab-count {
+  background: #e2e8f0;
+  color: #475569;
+  padding: 2px 6px;
+  border-radius: 99px;
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+.wp-desa-tab.active .wp-desa-tab-count {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.wp-desa-tab-content {
+  padding: 24px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 4. Tables */
+.wp-desa-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.wp-desa-table th {
+  background-color: #f8fafc;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.wp-desa-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 14px;
+}
+
+.wp-desa-table tr:last-child td {
+  border-bottom: none;
+}
+
+.wp-desa-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* 5. Badges */
+.wp-desa-badge {
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.wp-desa-badge-default,
+.wp-desa-badge-pending {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.wp-desa-badge-success,
+.wp-desa-badge-completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.wp-desa-badge-warning,
+.wp-desa-badge-processed {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.wp-desa-badge-danger,
+.wp-desa-badge-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* 6. Form Elements */
+.wp-desa-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.wp-desa-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.wp-desa-wrapper input[type="text"],
+.wp-desa-wrapper input[type="email"],
+.wp-desa-wrapper input[type="password"],
+.wp-desa-wrapper input[type="number"],
+.wp-desa-wrapper input[type="date"],
+.wp-desa-wrapper input[type="tel"],
+.wp-desa-wrapper input[type="url"],
+.wp-desa-wrapper select,
+.wp-desa-wrapper textarea,
+.wp-desa-modal-content input[type="text"],
+.wp-desa-modal-content input[type="email"],
+.wp-desa-modal-content input[type="password"],
+.wp-desa-modal-content input[type="number"],
+.wp-desa-modal-content input[type="date"],
+.wp-desa-modal-content input[type="tel"],
+.wp-desa-modal-content input[type="url"],
+.wp-desa-modal-content select,
+.wp-desa-modal-content textarea,
+.wp-desa-input,
+.wp-desa-select,
+.wp-desa-textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  color: #1e293b;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  background-color: #fff;
+  line-height: 1.5;
+}
+
+.wp-desa-wrapper select,
+.wp-desa-modal-content select,
+.wp-desa-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.wp-desa-wrapper input:focus,
+.wp-desa-wrapper select:focus,
+.wp-desa-wrapper textarea:focus,
+.wp-desa-modal-content input:focus,
+.wp-desa-modal-content select:focus,
+.wp-desa-modal-content textarea:focus,
+.wp-desa-input:focus,
+.wp-desa-select:focus,
+.wp-desa-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.wp-desa-helper {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.wp-desa-image-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.wp-desa-image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 7. Toast */
+.wp-desa-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wp-desa-toast.success {
+  background: #10b981;
+}
+
+.wp-desa-toast.error {
+  background: #ef4444;
+}
+
+/* 8. Modals (Legacy & Alpine) */
 .wp-desa-modal-overlay {
   position: fixed;
   top: 0;
@@ -18,21 +370,19 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Alpine.js handles display: none/block, but we want smooth transition */
-.wp-desa-modal-overlay[x-show="true"], /* fallback if x-show adds style */
+.wp-desa-modal-overlay[x-show="true"],
 .wp-desa-modal-overlay:not([style*="display: none"]) {
   opacity: 1;
   visibility: visible;
 }
 
-/* Modal Content */
 .wp-desa-modal-content {
   background-color: #fff;
   width: 100%;
-  max-width: 32rem; /* max-w-lg */
-  border-radius: 0.5rem; /* rounded-lg */
+  max-width: 32rem;
+  border-radius: 0.5rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-xl */
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   transform: scale(0.95);
   transition: transform 0.3s ease;
@@ -45,111 +395,46 @@
   transform: scale(1);
 }
 
-/* Header */
 .wp-desa-modal-header {
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f9fafb; /* bg-gray-50 */
+  background-color: #f9fafb;
 }
 
 .wp-desa-modal-title {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 600; /* font-semibold */
-  color: #111827; /* text-gray-900 */
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
   margin: 0;
 }
 
-/* Body */
 .wp-desa-modal-body {
   padding: 1.5rem;
   overflow-y: auto;
   flex: 1;
-  height: 50vh;
-  max-height: 100%;
 }
 
-/* Footer */
 .wp-desa-modal-footer {
   padding: 1rem 1.5rem;
-  background-color: #f9fafb; /* bg-gray-50 */
-  border-top: 1px solid #e5e7eb; /* border-gray-200 */
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
 }
 
-/* Form Styles Override for Modal */
+/* Modal form overrides - now handled by global styles */
 .wp-desa-modal-content .form-table {
   margin-top: 0;
 }
-
 .wp-desa-modal-content .form-table th {
   padding: 10px 0;
   width: 140px;
   font-weight: 500;
 }
-
 .wp-desa-modal-content .form-table td {
   padding: 5px 0 10px 0;
-}
-
-.wp-desa-modal-content input[type="text"],
-.wp-desa-modal-content input[type="date"],
-.wp-desa-modal-content select,
-.wp-desa-modal-content textarea {
-  width: 100%;
-  border: 1px solid #d1d5db; /* border-gray-300 */
-  border-radius: 0.375rem; /* rounded-md */
-  padding: 0.5rem 0.75rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.wp-desa-modal-content input:focus,
-.wp-desa-modal-content select:focus,
-.wp-desa-modal-content textarea:focus {
-  border-color: #2271b1;
-  box-shadow: 0 0 0 1px #2271b1;
-  outline: 2px solid transparent;
-}
-
-/* Buttons */
-.wp-desa-btn {
-  display: inline-flex;
-  justify-content: center;
-  border-radius: 0.375rem; /* rounded-md */
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: 1px solid transparent;
-}
-
-.wp-desa-btn-secondary {
-  background-color: #fff;
-  border-color: #d1d5db; /* border-gray-300 */
-  color: #374151; /* text-gray-700 */
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.wp-desa-btn-secondary:hover {
-  background-color: #f9fafb; /* hover:bg-gray-50 */
-}
-
-.wp-desa-btn-primary {
-  background-color: #2271b1; /* wp-blue */
-  color: white;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.wp-desa-btn-primary:hover {
-  background-color: #135e96;
-}
-
-.wp-desa-btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
 }

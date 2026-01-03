@@ -171,7 +171,10 @@ class Menu
 
             update_option('wp_desa_settings', $data);
             
-            echo '<div class="notice notice-success is-dismissible"><p>Pengaturan berhasil disimpan.</p></div>';
+            // Redirect using JS because headers are already sent
+            $redirect_url = add_query_arg(['page' => 'wp-desa-settings', 'settings-updated' => 'true'], admin_url('admin.php'));
+            echo "<script>window.location.href = '$redirect_url';</script>";
+            exit;
         }
 
         require_once WP_DESA_PATH . 'templates/admin/settings.php';
