@@ -52,6 +52,7 @@
                     </td>
                     <td>
                         <button @click="openDetail(letter)" class="button button-small">Lihat Detail</button>
+                        <button @click="printLetter(letter.id)" class="button button-small action">Cetak</button>
                     </td>
                 </tr>
             </template>
@@ -85,6 +86,7 @@
                 </div>
             </template>
             <div style="text-align: right; margin-top: 20px;">
+                <button @click="printLetter(selectedLetter.id)" class="button button-primary" style="margin-right: 10px;">Cetak Surat</button>
                 <button @click="isModalOpen = false" class="button">Tutup</button>
             </div>
         </div>
@@ -196,6 +198,11 @@ function lettersManager() {
             if (!dateString) return '-';
             const date = new Date(dateString);
             return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        },
+
+        printLetter(id) {
+            const url = '<?php echo admin_url('admin-post.php'); ?>?action=wp_desa_print_letter&id=' + id;
+            window.open(url, '_blank');
         }
     }
 }

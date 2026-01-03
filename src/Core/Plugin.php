@@ -32,6 +32,9 @@ class Plugin
 
             $meta_boxes = new \WpDesa\Admin\MetaBoxes();
             $meta_boxes->register();
+
+            $printer = new \WpDesa\Admin\PrintHandler();
+            add_action('admin_post_wp_desa_print_letter', [$printer, 'handle_print']);
         }
     }
 
