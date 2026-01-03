@@ -66,5 +66,8 @@ class Plugin
 
         $bb_loader = new \WpDesa\Integrations\BeaverBuilder\Loader();
         add_action('init', [$bb_loader, 'load']);
+
+        $elementor_loader = new \WpDesa\Integrations\Elementor\Loader();
+        add_action('init', [$elementor_loader, 'load']);
     }
 }
