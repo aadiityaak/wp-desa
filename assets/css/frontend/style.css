@@ -307,3 +307,366 @@
   height: auto;
   border-radius: 12px;
 }
+
+/* =========================================
+   Shortcode Styles
+   ========================================= */
+
+/* --- Statistik Shortcode --- */
+.wp-desa-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin: 20px 0;
+}
+
+.wp-desa-stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #f1f5f9;
+}
+
+.wp-desa-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.wp-desa-stat-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-desa-stat-icon .dashicons {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+}
+
+.wp-desa-stat-number {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.wp-desa-stat-label {
+    color: #64748b;
+    font-size: 0.95em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wp-desa-chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    border: 1px solid #f1f5f9;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Bantuan Shortcode --- */
+.status-badge {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-approved {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-distributed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+/* --- Aduan Shortcode --- */
+#wp-desa-aduan .wp-desa-tab-btn {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#wp-desa-aduan .wp-desa-tab-btn.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+
+#wp-desa-aduan .wp-desa-tab-btn:hover {
+    color: #1e293b;
+    background: #f8fafc;
+}
+
+#wp-desa-aduan .wp-desa-input,
+#wp-desa-aduan .wp-desa-select,
+#wp-desa-aduan .wp-desa-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    background: #fff;
+    font-family: inherit;
+    color: #1e293b;
+}
+
+#wp-desa-aduan .wp-desa-input:focus,
+#wp-desa-aduan .wp-desa-select:focus,
+#wp-desa-aduan .wp-desa-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+#wp-desa-aduan .wp-desa-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #334155;
+    font-size: 0.95em;
+}
+
+#wp-desa-aduan .wp-desa-form-group {
+    margin-bottom: 24px;
+}
+
+#wp-desa-aduan .wp-desa-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 1em;
+    gap: 8px;
+}
+
+#wp-desa-aduan .wp-desa-btn-primary {
+    background: #2563eb;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+#wp-desa-aduan .wp-desa-btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+}
+
+#wp-desa-aduan .wp-desa-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    background: #94a3b8;
+}
+
+#wp-desa-aduan .wp-desa-result-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f1f5f9;
+}
+
+#wp-desa-aduan .wp-desa-card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+#wp-desa-aduan .wp-desa-card-row:last-child {
+    border-bottom: none;
+}
+
+#wp-desa-aduan .wp-desa-card-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+#wp-desa-aduan .wp-desa-card-value {
+    color: #1e293b;
+    font-weight: 600;
+    text-align: right;
+}
+
+#wp-desa-aduan .wp-desa-helper {
+    font-size: 0.85em;
+    color: #64748b;
+    margin-top: 6px;
+    display: block;
+}
+
+/* --- Layanan Shortcode --- */
+#wp-desa-layanan .wp-desa-tab-btn {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#wp-desa-layanan .wp-desa-tab-btn.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+}
+
+#wp-desa-layanan .wp-desa-tab-btn:hover {
+    color: #1e293b;
+    background: #f8fafc;
+}
+
+#wp-desa-layanan .wp-desa-input,
+#wp-desa-layanan .wp-desa-select,
+#wp-desa-layanan .wp-desa-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    background: #fff;
+    font-family: inherit;
+    color: #1e293b;
+}
+
+#wp-desa-layanan .wp-desa-input:focus,
+#wp-desa-layanan .wp-desa-select:focus,
+#wp-desa-layanan .wp-desa-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+#wp-desa-layanan .wp-desa-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #334155;
+    font-size: 0.95em;
+}
+
+#wp-desa-layanan .wp-desa-form-group {
+    margin-bottom: 24px;
+}
+
+#wp-desa-layanan .wp-desa-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 1em;
+    gap: 8px;
+}
+
+#wp-desa-layanan .wp-desa-btn-primary {
+    background: #2563eb;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+#wp-desa-layanan .wp-desa-btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+}
+
+#wp-desa-layanan .wp-desa-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    background: #94a3b8;
+}
+
+#wp-desa-layanan .wp-desa-result-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f1f5f9;
+}
+
+#wp-desa-layanan .wp-desa-card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+#wp-desa-layanan .wp-desa-card-row:last-child {
+    border-bottom: none;
+}
+
+#wp-desa-layanan .wp-desa-card-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+#wp-desa-layanan .wp-desa-card-value {
+    color: #1e293b;
+    font-weight: 600;
+    text-align: right;
+}
+
+#wp-desa-layanan .wp-desa-helper {
+    font-size: 0.85em;
+    color: #64748b;
+    margin-top: 6px;
+    display: block;
+}
