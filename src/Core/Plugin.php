@@ -14,6 +14,19 @@ class Plugin
         $this->load_admin();
         $this->load_api();
         $this->load_frontend();
+        $this->load_updater();
+    }
+
+    private function load_updater()
+    {
+        if (is_admin()) {
+            $updater = new GithubUpdater(
+                WP_DESA_PATH . 'wp-desa.php',
+                'Websweet-Studio',
+                'wp-desa'
+            );
+            $updater->init();
+        }
     }
 
     private function load_core()
