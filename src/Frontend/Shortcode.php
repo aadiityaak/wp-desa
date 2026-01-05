@@ -84,7 +84,7 @@ class Shortcode
                 <!-- Total -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon" style="background: #eff6ff; color: #3b82f6;">
-                        <span class="dashicons dashicons-groups"></span>
+                        <i data-lucide="users" style="width: 24px; height: 24px;"></i>
                     </div>
                     <div class="wp-desa-stat-number"><?php echo number_format_i18n($total_val); ?></div>
                     <div class="wp-desa-stat-label">Total Penduduk</div>
@@ -93,7 +93,7 @@ class Shortcode
                 <!-- KK -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon" style="background: #fffbeb; color: #f59e0b;">
-                        <span class="dashicons dashicons-admin-home"></span>
+                        <i data-lucide="home" style="width: 24px; height: 24px;"></i>
                     </div>
                     <div class="wp-desa-stat-number"><?php echo number_format_i18n($families_val); ?></div>
                     <div class="wp-desa-stat-label">Kepala Keluarga</div>
@@ -102,7 +102,7 @@ class Shortcode
                 <!-- Laki-laki -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon" style="background: #e0f2fe; color: #0ea5e9;">
-                        <span class="dashicons dashicons-businessman"></span>
+                        <i data-lucide="mars" style="width: 24px; height: 24px;"></i>
                     </div>
                     <div class="wp-desa-stat-number"><?php echo number_format_i18n($male_val); ?></div>
                     <div class="wp-desa-stat-label">Laki-laki</div>
@@ -111,7 +111,7 @@ class Shortcode
                 <!-- Perempuan -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon" style="background: #fce7f3; color: #ec4899;">
-                        <span class="dashicons dashicons-businesswoman"></span>
+                        <i data-lucide="venus" style="width: 24px; height: 24px;"></i>
                     </div>
                     <div class="wp-desa-stat-number"><?php echo number_format_i18n($female_val); ?></div>
                     <div class="wp-desa-stat-label">Perempuan</div>
@@ -192,7 +192,7 @@ class Shortcode
                                     </a>
                                 <?php else: ?>
                                     <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #cbd5e1; background: #f1f5f9;">
-                                        <span class="dashicons dashicons-store" style="font-size: 64px; width: 64px; height: 64px; opacity: 0.5;"></span>
+                                        <i data-lucide="store" style="width: 64px; height: 64px; opacity: 0.5;"></i>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -206,7 +206,7 @@ class Shortcode
 
                                 <div style="border-top: 1px solid #f1f5f9; padding-top: 15px; margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
                                     <a href="<?php the_permalink(); ?>" style="font-size: 0.9em; font-weight: 500; color: #64748b; text-decoration: none; display: flex; align-items: center; gap: 4px;">
-                                        Detail <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 16px; width: 16px; height: 16px; margin-top: 2px;"></span>
+                                        Detail <i data-lucide="arrow-right" style="width: 16px; height: 16px; margin-top: 2px;"></i>
                                     </a>
 
                                     <?php if ($phone):
@@ -216,7 +216,7 @@ class Shortcode
                                         }
                                     ?>
                                         <a href="https://wa.me/<?php echo esc_attr($clean_phone); ?>" target="_blank" style="background: #25D366; color: white; border: none; font-size: 0.85em; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; text-decoration: none; font-weight: 500; transition: background 0.2s;">
-                                            <span class="dashicons dashicons-whatsapp" style="font-size: 16px; width: 16px; height: 16px;"></span> Chat
+                                            <i data-lucide="message-circle" style="width: 16px; height: 16px;"></i> Chat
                                         </a>
                                     <?php endif; ?>
                                 </div>
@@ -226,7 +226,7 @@ class Shortcode
                 </div>
             <?php else: ?>
                 <div style="text-align: center; padding: 60px 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e2e8f0; color: #94a3b8;">
-                    <span class="dashicons dashicons-store" style="font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></span>
+                    <i data-lucide="store" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
                     <p style="margin: 0; font-size: 1.1em;">Belum ada data UMKM yang ditampilkan.</p>
                 </div>
             <?php endif;
@@ -262,7 +262,7 @@ class Shortcode
                                     </a>
                                 <?php else: ?>
                                     <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #cbd5e1; background: #f1f5f9;">
-                                        <span class="dashicons dashicons-carrot" style="font-size: 64px; width: 64px; height: 64px; opacity: 0.5;"></span>
+                                        <i data-lucide="carrot" style="width: 64px; height: 64px; opacity: 0.5;"></i>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -274,7 +274,7 @@ class Shortcode
                                     <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
                                 </div>
                                 <a href="<?php the_permalink(); ?>" style="font-size: 0.9em; font-weight: 500; color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 4px; margin-top: auto;">
-                                    Baca Selengkapnya <span class="dashicons dashicons-arrow-right-alt2" style="font-size: 16px; width: 16px; height: 16px; margin-top: 2px;"></span>
+                                    Baca Selengkapnya <i data-lucide="arrow-right" style="width: 16px; height: 16px; margin-top: 2px;"></i>
                                 </a>
                             </div>
                         </div>
@@ -282,7 +282,7 @@ class Shortcode
                 </div>
             <?php else: ?>
                 <div style="text-align: center; padding: 60px 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e2e8f0; color: #94a3b8;">
-                    <span class="dashicons dashicons-carrot" style="font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></span>
+                    <i data-lucide="carrot" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
                     <p style="margin: 0; font-size: 1.1em;">Belum ada data Potensi Desa.</p>
                 </div>
             <?php endif;
@@ -325,7 +325,7 @@ class Shortcode
                     <?php if ($alamat): ?>
                         <div style="display: flex; gap: 15px; align-items: flex-start;">
                             <div style="width: 32px; height: 32px; background: #eff6ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #2563eb; flex-shrink: 0;">
-                                <span class="dashicons dashicons-location-alt" style="font-size: 18px; width: 18px; height: 18px;"></span>
+                                <i data-lucide="map-pin" style="width: 18px; height: 18px;"></i>
                             </div>
                             <div>
                                 <div style="font-size: 0.85em; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Alamat Kantor</div>
@@ -337,7 +337,7 @@ class Shortcode
                     <?php if ($email): ?>
                         <div style="display: flex; gap: 15px; align-items: flex-start;">
                             <div style="width: 32px; height: 32px; background: #eff6ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #2563eb; flex-shrink: 0;">
-                                <span class="dashicons dashicons-email" style="font-size: 18px; width: 18px; height: 18px;"></span>
+                                <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
                             </div>
                             <div>
                                 <div style="font-size: 0.85em; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Email</div>
@@ -349,7 +349,7 @@ class Shortcode
                     <?php if ($telepon): ?>
                         <div style="display: flex; gap: 15px; align-items: flex-start;">
                             <div style="width: 32px; height: 32px; background: #eff6ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #2563eb; flex-shrink: 0;">
-                                <span class="dashicons dashicons-phone" style="font-size: 18px; width: 18px; height: 18px;"></span>
+                                <i data-lucide="phone" style="width: 18px; height: 18px;"></i>
                             </div>
                             <div>
                                 <div style="font-size: 0.85em; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">Telepon</div>
@@ -387,7 +387,7 @@ class Shortcode
                         <img src="<?php echo esc_url($foto_kades); ?>" alt="Foto Kepala Desa" style="width: 100%; height: 100%; object-fit: cover;">
                     <?php else: ?>
                         <div style="width: 100%; height: 100%; background: #cbd5e1; display: flex; align-items: center; justify-content: center;">
-                            <span class="dashicons dashicons-admin-users" style="font-size: 80px; width: 80px; height: 80px; color: #94a3b8;"></span>
+                            <i data-lucide="user" style="width: 80px; height: 80px; color: #94a3b8;"></i>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -423,17 +423,17 @@ class Shortcode
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
                                 <div style="flex: 1; min-width: 250px;">
                                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                        <span class="dashicons dashicons-awards" style="color: #2563eb; font-size: 24px; width: 24px; height: 24px;"></span>
+                                        <i data-lucide="award" style="color: #2563eb; width: 24px; height: 24px;"></i>
                                         <h3 style="margin: 0; color: #1e293b; font-size: 1.25em;" x-text="p.name"></h3>
                                     </div>
                                     <p style="margin: 0 0 15px 0; color: #64748b; line-height: 1.6;" x-text="p.description"></p>
                                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                                         <span style="background: #eff6ff; color: #1d4ed8; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 500; display: inline-flex; align-items: center; gap: 4px;">
-                                            <span class="dashicons dashicons-location" style="font-size: 14px; width: 14px; height: 14px;"></span>
+                                            <i data-lucide="map-pin" style="width: 14px; height: 14px;"></i>
                                             <span x-text="p.origin"></span>
                                         </span>
                                         <span style="background: #f1f5f9; color: #475569; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 500; display: inline-flex; align-items: center; gap: 4px;">
-                                            <span class="dashicons dashicons-calendar-alt" style="font-size: 14px; width: 14px; height: 14px;"></span>
+                                            <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
                                             <span x-text="p.year"></span>
                                         </span>
                                     </div>
@@ -444,7 +444,7 @@ class Shortcode
 
                                     <button @click="viewRecipients(p)" class="wp-desa-btn" :class="activeProgramId === p.id ? 'wp-desa-btn-secondary' : 'wp-desa-btn-primary'" style="font-size: 0.9em; padding: 8px 16px;">
                                         <span x-text="activeProgramId === p.id ? 'Tutup Daftar' : 'Lihat Penerima'"></span>
-                                        <span class="dashicons" :class="activeProgramId === p.id ? 'dashicons-arrow-up-alt2' : 'dashicons-arrow-down-alt2'" style="margin-left: 5px; font-size: 14px; width: 14px; height: 14px; margin-top: 3px;"></span>
+                                        <i :data-lucide="activeProgramId === p.id ? 'chevron-up' : 'chevron-down'" style="margin-left: 5px; width: 14px; height: 14px; margin-top: 3px;"></i>
                                     </button>
                                 </div>
                             </div>
@@ -487,7 +487,7 @@ class Shortcode
                 </template>
                 <template x-if="programs.length === 0">
                     <div style="text-align: center; padding: 60px 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e2e8f0; color: #94a3b8;">
-                        <span class="dashicons dashicons-awards" style="font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></span>
+                        <i data-lucide="award" style="width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
                         <p style="margin: 0; font-size: 1.1em;">Belum ada program bantuan aktif saat ini.</p>
                     </div>
                 </template>
@@ -571,7 +571,7 @@ class Shortcode
                 <!-- Pendapatan -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon-bg">
-                        <span class="dashicons dashicons-money-alt" style="color: #2271b1;"></span>
+                        <i data-lucide="banknote" style="color: #2271b1; width: 24px; height: 24px;"></i>
                     </div>
                     <h4 class="wp-desa-stat-label">Total Pendapatan</h4>
                     <h3 class="wp-desa-stat-value" x-text="formatCurrency(summary.totals.find(t => t.type === 'income')?.total_realization || 0)"></h3>
@@ -583,7 +583,7 @@ class Shortcode
                 <!-- Belanja -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon-bg">
-                        <span class="dashicons dashicons-cart" style="color: #d63638;"></span>
+                        <i data-lucide="shopping-cart" style="color: #d63638; width: 24px; height: 24px;"></i>
                     </div>
                     <h4 class="wp-desa-stat-label">Total Belanja</h4>
                     <h3 class="wp-desa-stat-value" x-text="formatCurrency(summary.totals.find(t => t.type === 'expense')?.total_realization || 0)"></h3>
@@ -595,7 +595,7 @@ class Shortcode
                 <!-- Surplus/Defisit -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon-bg">
-                        <span class="dashicons dashicons-chart-line" style="color: #00a32a;"></span>
+                        <i data-lucide="trending-up" style="color: #00a32a; width: 24px; height: 24px;"></i>
                     </div>
                     <h4 class="wp-desa-stat-label">Sisa Lebih (SiLPA)</h4>
                     <h3 class="wp-desa-stat-value" :style="{color: getSurplus() >= 0 ? '#16a34a' : '#dc2626'}" x-text="formatCurrency(getSurplus())"></h3>
@@ -788,10 +788,10 @@ class Shortcode
 
             <div class="wp-desa-tabs" style="display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 30px;">
                 <button @click="tab = 'form'" :class="{'active': tab === 'form'}" class="wp-desa-tab-btn">
-                    <span class="dashicons dashicons-edit"></span> Buat Laporan
+                    <i data-lucide="edit" style="width: 18px; height: 18px;"></i> Buat Laporan
                 </button>
                 <button @click="tab = 'track'" :class="{'active': tab === 'track'}" class="wp-desa-tab-btn">
-                    <span class="dashicons dashicons-search"></span> Cek Status Laporan
+                    <i data-lucide="search" style="width: 18px; height: 18px;"></i> Cek Status Laporan
                 </button>
             </div>
 
@@ -855,7 +855,7 @@ class Shortcode
                         <button type="submit" :disabled="submitting" class="wp-desa-btn wp-desa-btn-primary" style="width: 100%;">
                             <span x-show="!submitting">Kirim Laporan</span>
                             <span x-show="submitting" style="display: flex; align-items: center; gap: 8px;">
-                                <span class="dashicons dashicons-update" style="animation: spin 2s linear infinite;"></span> Mengirim...
+                                <i data-lucide="loader-2" style="animation: spin 2s linear infinite; width: 18px; height: 18px;"></i> Mengirim...
                             </span>
                         </button>
                     </form>
@@ -869,7 +869,7 @@ class Shortcode
                             <input type="text" x-model="trackCode" placeholder="Contoh: ADU-XXXXXX" required class="wp-desa-input" style="flex: 1; font-family: monospace; letter-spacing: 1px; font-weight: 600;">
                             <button type="submit" :disabled="tracking" class="wp-desa-btn wp-desa-btn-primary" style="width: auto; min-width: 100px;">
                                 <span x-show="!tracking">Cek</span>
-                                <span x-show="tracking" class="dashicons dashicons-update" style="animation: spin 2s linear infinite;"></span>
+                                <i x-show="tracking" data-lucide="loader-2" style="animation: spin 2s linear infinite; width: 18px; height: 18px;"></i>
                             </button>
                         </div>
                     </form>
@@ -877,7 +877,7 @@ class Shortcode
                     <div x-show="trackResult" class="wp-desa-result-card">
                         <div style="text-align: center; margin-bottom: 20px;">
                             <div style="width: 60px; height: 60px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: #2563eb;">
-                                <span class="dashicons dashicons-clipboard" style="font-size: 30px; width: 30px; height: 30px;"></span>
+                                <i data-lucide="clipboard-list" style="width: 30px; height: 30px;"></i>
                             </div>
                             <h4 style="margin: 0; color: #1e293b; font-size: 1.2em;">Status Laporan</h4>
                             <p style="margin: 5px 0 0 0; color: #64748b; font-family: monospace;" x-text="trackResult.code"></p>
@@ -906,7 +906,7 @@ class Shortcode
                         <template x-if="trackResult.response">
                             <div style="margin-top: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
                                 <strong style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px; color: #334155;">
-                                    <span class="dashicons dashicons-admin-comments"></span> Tanggapan Admin:
+                                    <i data-lucide="message-square-text" style="width: 18px; height: 18px;"></i> Tanggapan Admin:
                                 </strong>
                                 <p style="margin: 0; color: #4b5563; line-height: 1.6;" x-text="trackResult.response"></p>
                             </div>
@@ -1060,6 +1060,9 @@ class Shortcode
 
         // Enqueue Chart.js for Finances (conditionally ideally, but globally for now to ensure it works)
         wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', [], '4.0.0', true);
+
+        wp_enqueue_script('lucide', 'https://unpkg.com/lucide@latest/dist/umd/lucide.min.js', [], null, true);
+        wp_add_inline_script('lucide', 'document.addEventListener("DOMContentLoaded",function(){try{if(window.lucide&&lucide.createIcons){lucide.createIcons();}}catch(e){}});');
     }
 
     public function render_layanan()
@@ -1071,10 +1074,10 @@ class Shortcode
 
             <div class="wp-desa-tabs" style="display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 30px;">
                 <button class="wp-desa-tab-btn" :class="{ 'active': tab === 'request' }" @click="tab = 'request'">
-                    <span class="dashicons dashicons-edit"></span> Buat Permohonan
+                    <i data-lucide="edit" style="width: 18px; height: 18px;"></i> Buat Permohonan
                 </button>
                 <button class="wp-desa-tab-btn" :class="{ 'active': tab === 'tracking' }" @click="tab = 'tracking'">
-                    <span class="dashicons dashicons-search"></span> Cek Status
+                    <i data-lucide="search" style="width: 18px; height: 18px;"></i> Cek Status
                 </button>
             </div>
 

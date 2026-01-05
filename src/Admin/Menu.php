@@ -167,6 +167,7 @@ class Menu
                 'kepala_desa' => sanitize_text_field($_POST['kepala_desa']),
                 'nip_kepala_desa' => sanitize_text_field($_POST['nip_kepala_desa']),
                 'foto_kepala_desa' => esc_url_raw($_POST['foto_kepala_desa']),
+                'dev_mode' => isset($_POST['dev_mode']) ? 1 : 0,
             ];
 
             update_option('wp_desa_settings', $data);
