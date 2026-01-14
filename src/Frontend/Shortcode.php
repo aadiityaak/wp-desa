@@ -27,21 +27,38 @@ class Shortcode
         // Cache results for 1 hour to reduce DB load
         $stats = get_transient('wp_desa_quick_stats');
 
-        if (false === $stats) {
-            // Check if table exists to prevent errors on fresh install
+        $needs_refresh = false;
+        if ($stats === false || !is_array($stats)) {
+            $needs_refresh = true;
+        } else {
+            $required_keys = ['total', 'male', 'female', 'families', 'jobs', 'maritals', 'age_groups'];
+            foreach ($required_keys as $key) {
+                if (!array_key_exists($key, $stats)) {
+                    $needs_refresh = true;
+                    break;
+                }
+            }
+        }
+
+        if ($needs_refresh) {
             if ($wpdb->get_var("SHOW TABLES LIKE '$table'") != $table) {
                 $stats = [
                     'total' => 0,
                     'male' => 0,
                     'female' => 0,
-                    'families' => 0
+                    'families' => 0,
+                    'jobs' => [],
+                    'maritals' => [],
+                    'age_groups' => [
+                        'anak' => 0,
+                        'dewasa' => 0,
+                    ],
                 ];
             } else {
                 $total = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table");
                 $male = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE jenis_kelamin = 'Laki-laki'");
                 $female = (int) $wpdb->get_var("SELECT COUNT(*) FROM $table WHERE jenis_kelamin = 'Perempuan'");
 
-                // Check if no_kk column exists before querying to avoid errors on older DB versions
                 $has_kk = $wpdb->get_results("SHOW COLUMNS FROM $table LIKE 'no_kk'");
                 if (!empty($has_kk)) {
                     $families = (int) $wpdb->get_var("SELECT COUNT(DISTINCT no_kk) FROM $table WHERE no_kk != ''");
@@ -49,22 +66,46 @@ class Shortcode
                     $families = 0;
                 }
 
+                $job_stats = $wpdb->get_results("SELECT pekerjaan as label, COUNT(*) as count FROM $table GROUP BY pekerjaan ORDER BY count DESC LIMIT 6");
+                $marital_stats = $wpdb->get_results("SELECT status_perkawinan as label, COUNT(*) as count FROM $table GROUP BY status_perkawinan");
+                $age_groups = $wpdb->get_row("
+                    SELECT
+                        SUM(CASE WHEN TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) < 18 THEN 1 ELSE 0 END) AS anak,
+                        SUM(CASE WHEN TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) >= 18 THEN 1 ELSE 0 END) AS dewasa
+                    FROM $table
+                ");
+
                 $stats = [
                     'total' => $total,
                     'male' => $male,
                     'female' => $female,
-                    'families' => $families
+                    'families' => $families,
+                    'jobs' => $job_stats,
+                    'maritals' => $marital_stats,
+                    'age_groups' => $age_groups,
                 ];
 
                 set_transient('wp_desa_quick_stats', $stats, HOUR_IN_SECONDS);
             }
         }
 
-        // Ensure stats are integers and exist
         $total_val = isset($stats['total']) ? (int) $stats['total'] : 0;
         $families_val = isset($stats['families']) ? (int) $stats['families'] : 0;
         $male_val = isset($stats['male']) ? (int) $stats['male'] : 0;
         $female_val = isset($stats['female']) ? (int) $stats['female'] : 0;
+        $job_stats = isset($stats['jobs']) && is_array($stats['jobs']) ? $stats['jobs'] : [];
+        $marital_stats = isset($stats['maritals']) && is_array($stats['maritals']) ? $stats['maritals'] : [];
+        $age_groups_raw = isset($stats['age_groups']) ? $stats['age_groups'] : null;
+        if (is_object($age_groups_raw)) {
+            $age_anak = isset($age_groups_raw->anak) ? (int) $age_groups_raw->anak : 0;
+            $age_dewasa = isset($age_groups_raw->dewasa) ? (int) $age_groups_raw->dewasa : 0;
+        } elseif (is_array($age_groups_raw)) {
+            $age_anak = isset($age_groups_raw['anak']) ? (int) $age_groups_raw['anak'] : 0;
+            $age_dewasa = isset($age_groups_raw['dewasa']) ? (int) $age_groups_raw['dewasa'] : 0;
+        } else {
+            $age_anak = 0;
+            $age_dewasa = 0;
+        }
 
         $chart_id = 'wpDesaStatChart_' . uniqid();
 
@@ -116,6 +157,68 @@ class Shortcode
                     </div>
                     <div class="wp-desa-stat-number"><?php echo number_format_i18n($female_val); ?></div>
                     <div class="wp-desa-stat-label">Perempuan</div>
+                </div>
+            </div>
+
+            <div class="wp-desa-stat-card" style="margin-top: 25px;">
+                <h4 style="margin: 0 0 15px 0; color: #0f172a; font-size: 1.05em;">Rincian Demografi</h4>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                    <div>
+                        <h5 style="margin: 0 0 10px 0; font-size: 0.95em; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Jenis Kelamin</h5>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95em;">
+                                <span>Laki-laki</span>
+                                <span style="font-weight: 600;"><?php echo number_format_i18n($male_val); ?></span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95em;">
+                                <span>Perempuan</span>
+                                <span style="font-weight: 600;"><?php echo number_format_i18n($female_val); ?></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h5 style="margin: 0 0 10px 0; font-size: 0.95em; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Kelompok Usia</h5>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95em;">
+                                <span>Anak (&lt; 18 tahun)</span>
+                                <span style="font-weight: 600;"><?php echo number_format_i18n($age_anak); ?></span>
+                            </li>
+                            <li style="display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95em;">
+                                <span>Dewasa (&ge; 18 tahun)</span>
+                                <span style="font-weight: 600;"><?php echo number_format_i18n($age_dewasa); ?></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <?php if (!empty($job_stats)): ?>
+                        <div>
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.95em; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Pekerjaan Terbanyak</h5>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <?php foreach ($job_stats as $row): ?>
+                                    <li style="display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95em;">
+                                        <span><?php echo esc_html($row->label ?: 'Tidak Diisi'); ?></span>
+                                        <span style="font-weight: 600;"><?php echo number_format_i18n((int) $row->count); ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($marital_stats)): ?>
+                        <div>
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.95em; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Status Perkawinan</h5>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <?php foreach ($marital_stats as $row): ?>
+                                    <li style="display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.95em;">
+                                        <span><?php echo esc_html($row->label ?: 'Tidak Diisi'); ?></span>
+                                        <span style="font-weight: 600;"><?php echo number_format_i18n((int) $row->count); ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -456,20 +559,17 @@ class Shortcode
         ob_start();
     ?>
         <div class="wp-desa-wrapper">
-            <div class="wp-desa-stat-card" style="text-align: center; padding: 40px 30px; position: relative; overflow: hidden;">
-                <!-- Decorative Background -->
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, #2563eb, #06b6d4);"></div>
-
+            <div class="wp-desa-stat-card" style="text-align: center; padding: 20px; position: relative; overflow: hidden;">
                 <?php if ($logo): ?>
-                    <img src="<?php echo esc_url($logo); ?>" alt="Logo Kabupaten" style="max-width: 100px; height: auto; margin-bottom: 25px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
+                    <img src="<?php echo esc_url($logo); ?>" alt="Logo Kabupaten" style="max-width: 100px; height: auto; margin-bottom: 25px;">
                 <?php endif; ?>
 
-                <h2 style="margin: 0 0 5px 0; color: #1e293b; font-weight: 800; font-size: 1.8em;"><?php echo esc_html('Desa ' . $nama_desa); ?></h2>
+                <h2 style="margin: 0 0 5px 0; color: #1e293b; font-weight: 800; font-size: 1.2em;"><?php echo esc_html('Desa ' . $nama_desa); ?></h2>
                 <h4 style="margin: 0 0 30px 0; color: #64748b; font-weight: 500; font-size: 1.1em;">
                     <?php echo esc_html('Kecamatan ' . $nama_kecamatan . ', ' . $nama_kabupaten); ?>
                 </h4>
 
-                <div style="display: inline-flex; flex-direction: column; gap: 15px; text-align: left; background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; width: 100%; max-width: 500px;">
+                <div style="display: inline-flex; flex-direction: column; gap: 15px; text-align: left;">
                     <?php if ($alamat): ?>
                         <div style="display: flex; gap: 15px; align-items: flex-start;">
                             <div style="width: 32px; height: 32px; background: #eff6ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #2563eb; flex-shrink: 0;">
@@ -767,6 +867,12 @@ class Shortcode
                         <canvas id="publicExpenseChart"></canvas>
                     </div>
                 </div>
+                <div class="wp-desa-chart-container" style="margin: 0; max-width: none;">
+                    <h4 class="wp-desa-chart-title">Tren Realisasi per Tahun</h4>
+                    <div class="wp-desa-chart-box">
+                        <canvas id="publicTrendChart"></canvas>
+                    </div>
+                </div>
             </div>
 
             <!-- Detail Table -->
@@ -825,11 +931,13 @@ class Shortcode
                     summary: {
                         totals: [],
                         income_sources: [],
-                        expense_sources: []
+                        expense_sources: [],
+                        yearly_trend: []
                     },
                     items: [],
                     incomeChart: null,
                     expenseChart: null,
+                    trendChart: null,
 
                     init() {
                         const currentYear = new Date().getFullYear();
@@ -860,6 +968,7 @@ class Shortcode
                     renderCharts() {
                         if (this.incomeChart) this.incomeChart.destroy();
                         if (this.expenseChart) this.expenseChart.destroy();
+                        if (this.trendChart) this.trendChart.destroy();
 
                         // Wait for Chart.js
                         if (typeof Chart === 'undefined') {
@@ -897,6 +1006,88 @@ class Shortcode
                                 },
                                 options: {
                                     responsive: true
+                                }
+                            });
+                        }
+
+                        const trendCtx = document.getElementById('publicTrendChart');
+                        if (trendCtx && this.summary.yearly_trend.length > 0) {
+                            const years = [...new Set(this.summary.yearly_trend.map(i => i.year))].sort();
+                            const incomeMap = {};
+                            const expenseMap = {};
+                            this.summary.yearly_trend.forEach(item => {
+                                if (item.type === 'income') {
+                                    incomeMap[item.year] = item.total_realization;
+                                } else if (item.type === 'expense') {
+                                    expenseMap[item.year] = item.total_realization;
+                                }
+                            });
+                            const incomeData = years.map(y => incomeMap[y] || 0);
+                            const expenseData = years.map(y => expenseMap[y] || 0);
+
+                            this.trendChart = new Chart(trendCtx, {
+                                type: 'line',
+                                data: {
+                                    labels: years,
+                                    datasets: [{
+                                            label: 'Pendapatan',
+                                            data: incomeData,
+                                            borderColor: '#16a34a',
+                                            backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                                            borderWidth: 2,
+                                            tension: 0.3,
+                                            fill: true,
+                                            pointRadius: 3
+                                        },
+                                        {
+                                            label: 'Belanja',
+                                            data: expenseData,
+                                            borderColor: '#dc2626',
+                                            backgroundColor: 'rgba(220, 38, 38, 0.08)',
+                                            borderWidth: 2,
+                                            tension: 0.3,
+                                            fill: true,
+                                            pointRadius: 3
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    responsive: true,
+                                    interaction: {
+                                        mode: 'index',
+                                        intersect: false
+                                    },
+                                    stacked: false,
+                                    plugins: {
+                                        legend: {
+                                            position: 'bottom'
+                                        },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(context) {
+                                                    const value = context.parsed.y || 0;
+                                                    return context.dataset.label + ': ' + new Intl.NumberFormat('id-ID', {
+                                                        style: 'currency',
+                                                        currency: 'IDR',
+                                                        maximumFractionDigits: 0
+                                                    }).format(value);
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        y: {
+                                            ticks: {
+                                                callback: function(value) {
+                                                    return new Intl.NumberFormat('id-ID', {
+                                                        style: 'currency',
+                                                        currency: 'IDR',
+                                                        maximumFractionDigits: 0
+                                                    }).format(value);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             });
                         }
@@ -1202,6 +1393,18 @@ class Shortcode
     {
         // Enqueue Alpine.js for frontend
         wp_enqueue_script('alpinejs', 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js', [], '3.0.0', true);
+
+        add_filter('rocket_delay_js_exclusions', function ($excluded) {
+            $excluded[] = 'alpinejs';
+            $excluded[] = 'alpinejs@3.x.x/dist/cdn.min.js';
+            return array_unique($excluded);
+        });
+
+        add_filter('rocket_exclude_defer_js', function ($excluded) {
+            $excluded[] = 'alpinejs';
+            $excluded[] = 'alpinejs@3.x.x/dist/cdn.min.js';
+            return array_unique($excluded);
+        });
 
         // Enqueue Frontend Styles
         wp_enqueue_style('wp-desa-frontend', WP_DESA_URL . 'assets/css/frontend/style.css', [], '1.0.0');

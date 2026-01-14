@@ -152,11 +152,19 @@ class FinanceController extends WP_REST_Controller
             GROUP BY category
         ", $year));
 
+        $yearly_trend = $wpdb->get_results("
+            SELECT year, type, SUM(realization_amount) as total_realization
+            FROM $table
+            GROUP BY year, type
+            ORDER BY year ASC
+        ");
+
         return rest_ensure_response([
             'year' => $year,
             'totals' => $totals,
             'income_sources' => $income_sources,
-            'expense_sources' => $expense_sources
+            'expense_sources' => $expense_sources,
+            'yearly_trend' => $yearly_trend
         ]);
     }
 
