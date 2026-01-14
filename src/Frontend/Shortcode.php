@@ -803,20 +803,23 @@ class Shortcode
     ?>
         <div id="wp-desa-keuangan" class="wp-desa-wrapper" x-data="keuanganDesa()">
             <div class="wp-desa-header">
-                <h2 class="wp-desa-title">Transparansi Keuangan</h2>
+                <div>
+                    <h2 class="wp-desa-title">Transparansi Keuangan</h2>
+                    <p class="wp-desa-subtitle">Ringkasan realisasi APBDes per tahun anggaran.</p>
+                </div>
                 <div class="wp-desa-filter">
-                    <label class="wp-desa-filter-label">Tahun Anggaran:</label>
-                    <select x-model="filterYear" @change="fetchSummary" class="wp-desa-select wp-desa-select-year">
-                        <template x-for="y in years" :key="y">
-                            <option :value="y" x-text="y"></option>
-                        </template>
-                    </select>
+                    <label class="wp-desa-filter-label">Tahun Anggaran</label>
+                    <div class="wp-desa-filter-control">
+                        <select x-model="filterYear" @change="fetchSummary" class="wp-desa-select wp-desa-select-year">
+                            <template x-for="y in years" :key="y">
+                                <option :value="y" x-text="y"></option>
+                            </template>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <!-- Summary Cards -->
             <div class="wp-desa-summary-grid">
-                <!-- Pendapatan -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon-bg">
                         <i data-lucide="banknote" style="color: #2271b1; width: 24px; height: 24px;"></i>
@@ -824,11 +827,10 @@ class Shortcode
                     <h4 class="wp-desa-stat-label">Total Pendapatan</h4>
                     <h3 class="wp-desa-stat-value" x-text="formatCurrency(summary.totals.find(t => t.type === 'income')?.total_realization || 0)"></h3>
                     <div class="wp-desa-stat-sub">
-                        Target: <span x-text="formatCurrency(summary.totals.find(t => t.type === 'income')?.total_budget || 0)"></span>
+                        Target <span x-text="formatCurrency(summary.totals.find(t => t.type === 'income')?.total_budget || 0)"></span>
                     </div>
                 </div>
 
-                <!-- Belanja -->
                 <div class="wp-desa-stat-card">
                     <div class="wp-desa-stat-icon-bg">
                         <i data-lucide="shopping-cart" style="color: #d63638; width: 24px; height: 24px;"></i>
@@ -836,38 +838,36 @@ class Shortcode
                     <h4 class="wp-desa-stat-label">Total Belanja</h4>
                     <h3 class="wp-desa-stat-value" x-text="formatCurrency(summary.totals.find(t => t.type === 'expense')?.total_realization || 0)"></h3>
                     <div class="wp-desa-stat-sub">
-                        Pagu: <span x-text="formatCurrency(summary.totals.find(t => t.type === 'expense')?.total_budget || 0)"></span>
+                        Pagu <span x-text="formatCurrency(summary.totals.find(t => t.type === 'expense')?.total_budget || 0)"></span>
                     </div>
                 </div>
 
-                <!-- Surplus/Defisit -->
-                <div class="wp-desa-stat-card">
+                <div class="wp-desa-stat-card wp-desa-stat-card-surplus">
                     <div class="wp-desa-stat-icon-bg">
                         <i data-lucide="trending-up" style="color: #00a32a; width: 24px; height: 24px;"></i>
                     </div>
                     <h4 class="wp-desa-stat-label">Sisa Lebih (SiLPA)</h4>
                     <h3 class="wp-desa-stat-value" :style="{color: getSurplus() >= 0 ? '#16a34a' : '#dc2626'}" x-text="formatCurrency(getSurplus())"></h3>
-                    <div style="margin-top: 5px; font-size: 0.85em; color: #64748b;">
-                        Realisasi Pendapatan - Belanja
+                    <div class="wp-desa-stat-sub wp-desa-stat-sub-muted">
+                        Realisasi pendapatan dikurangi belanja
                     </div>
                 </div>
             </div>
 
-            <!-- Charts -->
             <div class="wp-desa-chart-wrapper">
-                <div class="wp-desa-chart-container" style="margin: 0; max-width: none;">
+                <div class="wp-desa-chart-container">
                     <h4 class="wp-desa-chart-title">Sumber Pendapatan</h4>
                     <div class="wp-desa-chart-box">
                         <canvas id="publicIncomeChart"></canvas>
                     </div>
                 </div>
-                <div class="wp-desa-chart-container" style="margin: 0; max-width: none;">
+                <div class="wp-desa-chart-container">
                     <h4 class="wp-desa-chart-title">Penggunaan Anggaran</h4>
                     <div class="wp-desa-chart-box">
                         <canvas id="publicExpenseChart"></canvas>
                     </div>
                 </div>
-                <div class="wp-desa-chart-container" style="margin: 0; max-width: none;">
+                <div class="wp-desa-chart-container">
                     <h4 class="wp-desa-chart-title">Tren Realisasi per Tahun</h4>
                     <div class="wp-desa-chart-box">
                         <canvas id="publicTrendChart"></canvas>
@@ -875,31 +875,33 @@ class Shortcode
                 </div>
             </div>
 
-            <!-- Detail Table -->
-            <div class="wp-desa-stat-card" style="padding: 0;">
+            <div class="wp-desa-stat-card wp-desa-table-card">
                 <div class="wp-desa-table-header">
-                    <h4 class="wp-desa-table-title">Rincian Realisasi APBDes</h4>
+                    <div>
+                        <h4 class="wp-desa-table-title">Rincian Realisasi APBDes</h4>
+                        <p class="wp-desa-table-subtitle">Per kategori belanja dan pendapatan desa.</p>
+                    </div>
                 </div>
                 <div class="wp-desa-table-wrapper">
                     <table>
                         <thead>
                             <tr>
-                                <th style="text-align: left;">Uraian</th>
-                                <th style="text-align: right;">Anggaran</th>
-                                <th style="text-align: right;">Realisasi</th>
-                                <th style="text-align: center;">%</th>
+                                <th class="wp-desa-col-title">Uraian</th>
+                                <th class="wp-desa-col-number">Anggaran</th>
+                                <th class="wp-desa-col-number">Realisasi</th>
+                                <th class="wp-desa-col-percentage">Realisasi</th>
                             </tr>
                         </thead>
-                        <tbody style="color: #334155;">
+                        <tbody>
                             <template x-for="(item, index) in items" :key="item.id">
-                                <tr :style="index % 2 === 0 ? 'background: white;' : 'background: #fcfcfc;'" style="border-bottom: 1px solid #f1f5f9; transition: background 0.2s;">
-                                    <td style="padding: 15px 20px;">
-                                        <div style="font-weight: 600; color: #1e293b;" x-text="item.category"></div>
-                                        <div style="font-size: 0.9em; color: #64748b; margin-top: 4px;" x-text="item.description"></div>
+                                <tr>
+                                    <td>
+                                        <div class="wp-desa-row-title" x-text="item.category"></div>
+                                        <div class="wp-desa-row-subtitle" x-text="item.description"></div>
                                     </td>
-                                    <td style="text-align: right; padding: 15px 20px; white-space: nowrap;" x-text="formatCurrency(item.budget_amount)"></td>
-                                    <td style="text-align: right; padding: 15px 20px; white-space: nowrap; font-weight: 500;" x-text="formatCurrency(item.realization_amount)"></td>
-                                    <td style="text-align: center; padding: 15px 20px;">
+                                    <td class="wp-desa-cell-number" x-text="formatCurrency(item.budget_amount)"></td>
+                                    <td class="wp-desa-cell-number wp-desa-cell-number-strong" x-text="formatCurrency(item.realization_amount)"></td>
+                                    <td class="wp-desa-cell-percentage">
                                         <div class="wp-desa-percentage"
                                             :style="{
                                                  background: calculatePercentage(item.realization_amount, item.budget_amount) > 90 ? '#dcfce7' : (calculatePercentage(item.realization_amount, item.budget_amount) > 50 ? '#fef9c3' : '#fee2e2'),
@@ -961,7 +963,7 @@ class Shortcode
                         fetch('/wp-json/wp-desa/v1/finances?year=' + this.filterYear)
                             .then(res => res.json())
                             .then(data => {
-                                this.items = data;
+                                this.items = Array.isArray(data?.data) ? data.data : (Array.isArray(data) ? data : []);
                             });
                     },
 

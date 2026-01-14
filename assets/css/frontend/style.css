@@ -543,7 +543,7 @@
 #wp-desa-keuangan .wp-desa-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 25px;
   flex-wrap: wrap;
   gap: 15px;
@@ -552,6 +552,12 @@
 #wp-desa-keuangan .wp-desa-title {
   margin: 0;
   text-align: left;
+}
+
+#wp-desa-keuangan .wp-desa-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 0.9em;
+  color: #64748b;
 }
 
 #wp-desa-keuangan .wp-desa-filter {
@@ -563,6 +569,10 @@
 #wp-desa-keuangan .wp-desa-filter-label {
   font-weight: 500;
   color: #64748b;
+}
+
+#wp-desa-keuangan .wp-desa-filter-control {
+  position: relative;
 }
 
 #wp-desa-keuangan .wp-desa-select-year {
@@ -583,6 +593,8 @@
   text-align: left;
   position: relative;
   overflow: hidden;
+  border-radius: 12px;
+  padding: 20px 18px;
 }
 
 #wp-desa-keuangan .wp-desa-stat-icon-bg {
@@ -622,6 +634,15 @@
   border-radius: 4px;
 }
 
+#wp-desa-keuangan .wp-desa-stat-sub-muted {
+  background: transparent;
+  padding: 0;
+}
+
+#wp-desa-keuangan .wp-desa-stat-card-surplus {
+  border-left: 3px solid #16a34a;
+}
+
 #wp-desa-keuangan .wp-desa-chart-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -652,6 +673,12 @@
   font-size: 1.1em;
 }
 
+#wp-desa-keuangan .wp-desa-table-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 0.9em;
+  color: #64748b;
+}
+
 #wp-desa-keuangan .wp-desa-table-wrapper {
   overflow-x: auto;
 }
@@ -674,6 +701,42 @@
 
 #wp-desa-keuangan td {
   padding: 15px 20px;
+}
+
+#wp-desa-keuangan .wp-desa-row-title {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+#wp-desa-keuangan .wp-desa-row-subtitle {
+  font-size: 0.9em;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+#wp-desa-keuangan .wp-desa-col-title {
+  text-align: left;
+}
+
+#wp-desa-keuangan .wp-desa-col-number {
+  text-align: right;
+}
+
+#wp-desa-keuangan .wp-desa-col-percentage {
+  text-align: center;
+}
+
+#wp-desa-keuangan .wp-desa-cell-number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+#wp-desa-keuangan .wp-desa-cell-number-strong {
+  font-weight: 500;
+}
+
+#wp-desa-keuangan .wp-desa-cell-percentage {
+  text-align: center;
 }
 
 #wp-desa-keuangan .wp-desa-percentage {
